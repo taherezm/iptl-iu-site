@@ -563,6 +563,13 @@
   .foot-row a { color: var(--ink-dim); }
   .foot-row a:hover { color: var(--ink); }
   .foot-row .links { display: flex; gap: 28px; }
+  .foot-row .disclosure {
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-faint);
+  }
 
   /* honeypot — never visible to real users */
   .hp-field { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
@@ -610,9 +617,9 @@
     <a href="#" class="brand" aria-label="ip&amp;tl@iu"><span class="slash" aria-hidden="true"></span><span>ip&amp;tl@iu</span></a>
     <nav class="nav-links">
       <a href="#focus">Focus</a>
-      <a href="blog.html">Blog</a>
       <a href="#people">People</a>
       <a href="#contact">Contact</a>
+      <a href="blog.html">Blog</a>
       <a href="tools/litigation-tracker/">Tools</a>
     </nav>
   </div>
@@ -838,6 +845,7 @@
 <footer>
   <div class="wrap foot-row">
     <span>IP &amp; TECHNOLOGY LAW AT IU · INDIANA UNIVERSITY BLOOMINGTON · 2026</span>
+    <span class="disclosure">Not affiliated with Indiana University Maurer School of Law</span>
     <span class="links">
       <a href="#focus">Focus</a>
       <a href="#people">People</a>

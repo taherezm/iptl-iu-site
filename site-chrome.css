@@ -343,6 +343,7 @@ footer {
 .foot-row {
   display: flex; align-items: center; justify-content: space-between;
   gap: 24px;
+  flex-wrap: wrap;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.14em;
@@ -352,4 +353,11 @@ footer {
 .foot-row a { color: var(--ink-dim); }
 .foot-row a:hover { color: var(--ink); }
 .foot-row .links { display: flex; gap: 28px; }
+.foot-row .disclosure {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-faint);
+}
 @media (max-width: 640px) { .foot-row { flex-direction: column; align-items: flex-start; } }
