@@ -219,49 +219,12 @@
 
   .tracker-section { padding-top: 72px; }
   .tracker-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 38%) minmax(0, 62%);
-    gap: 64px;
-    align-items: start;
-  }
-  @media (max-width: 900px) {
-    .tracker-layout { grid-template-columns: 1fr; gap: 56px; }
+    display: block;
   }
 
-  .activity-panel .eyebrow,
   .case-index .eyebrow { display: block; margin-bottom: 20px; }
 
-  .activity-list,
   .case-list { border-top: 1px solid var(--rule); }
-  .activity-item {
-    border-bottom: 1px solid var(--rule);
-    padding: 16px 0;
-  }
-  .activity-item.is-significant { border-left: 2px solid var(--gold); padding-left: 14px; }
-  .activity-case {
-    appearance: none;
-    background: transparent;
-    border: 0;
-    padding: 0;
-    color: var(--ink);
-    font-size: 14px;
-    line-height: 1.35;
-    cursor: pointer;
-    text-align: left;
-  }
-  .activity-case:hover { color: var(--gold); }
-  .activity-date {
-    margin-top: 6px;
-    color: var(--ink-faint);
-    font-size: 12px;
-  }
-  .activity-summary {
-    margin: 8px 0 0;
-    color: var(--ink-dim);
-    font-size: 13px;
-    line-height: 1.5;
-  }
-  .activity-badge,
   .timeline-badge {
     display: inline-block;
     margin-top: 10px;
@@ -269,9 +232,7 @@
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
-  .activity-badge.significant,
   .timeline-badge.significant { color: var(--gold); }
-  .activity-badge.resolved,
   .timeline-badge.resolved { color: var(--resolved); }
 
   .search-input {
@@ -493,7 +454,6 @@
 <main>
   <section class="tracker-hero" data-screen-label="Litigation Tracker Hero">
     <div class="wrap reveal">
-      <p class="eyebrow">Tools &mdash; IP &amp; Technology Law at IU</p>
       <h1>Litigation Tracker</h1>
       <p class="lead">Currently tracking federal cases on intellectual property, artificial intelligence, software, infringements, platforms, and emerging digital rights. Updated automatically every five day.</p>
       <div class="stat-strip">
@@ -513,11 +473,6 @@
 
   <section class="tracker-section" data-screen-label="Tracker">
     <div class="wrap tracker-layout">
-      <aside class="activity-panel reveal" aria-labelledby="recent-activity-title">
-        <span class="eyebrow" id="recent-activity-title">Recent Activity</span>
-        <div class="activity-list" id="activity-list"></div>
-      </aside>
-
       <section class="case-index reveal" aria-labelledby="case-index-title">
         <span class="eyebrow" id="case-index-title">Case Index</span>
         <input class="search-input" id="case-search" type="search" placeholder="Search cases, parties, claims&hellip;" autocomplete="off">
@@ -554,7 +509,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     courts: document.getElementById('stat-courts'),
     updated: document.getElementById('stat-updated'),
     rulings: document.getElementById('stat-rulings'),
-    activity: document.getElementById('activity-list'),
     caseList: document.getElementById('case-list'),
     search: document.getElementById('case-search')
   };
@@ -579,7 +533,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   renderStats();
-  renderActivity();
   renderCases();
   wireControls();
   wireReveal();
@@ -591,31 +544,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     els.rulings.textContent = state.cases.reduce(function (sum, c) {
       return sum + ((c.key_rulings && c.key_rulings.length) || 0);
     }, 0);
-  }
-
-  function renderActivity() {
-    var entries = state.updates.slice(0, 40);
-    if (!entries.length) {
-      els.activity.innerHTML = '<div class="empty-state">No recent docket updates yet.</div>';
-      return;
-    }
-    els.activity.innerHTML = entries.map(function (entry) {
-      var significance = entry.significance || 'minor_update';
-      var label = significanceLabel(significance);
-      var badge = label ? '<div class="activity-badge ' + significanceClass(significance) + '">' + label + '</div>' : '';
-      return '<article class="activity-item ' + (significance === 'significant_ruling' ? 'is-significant' : '') + '">' +
-        '<button class="activity-case" type="button" data-case-id="' + escapeAttr(entry.case_id) + '">' + escapeHtml(entry.case_name || 'Untitled case') + '</button>' +
-        '<div class="activity-date">' + escapeHtml(formatDate(entry.entry_date) || entry.entry_date || '') + '</div>' +
-        '<p class="activity-summary">' + escapeHtml(entry.summary || 'Summary pending.') + '</p>' +
-        badge +
-      '</article>';
-    }).join('');
-
-    els.activity.querySelectorAll('.activity-case').forEach(function (button) {
-      button.addEventListener('click', function () {
-        scrollToCase(button.getAttribute('data-case-id'));
-      });
-    });
   }
 
   function renderCases() {
@@ -757,23 +685,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
-  function scrollToCase(id) {
-    if (!id) return;
-    var card = els.caseList.querySelector('[data-case-id="' + cssEscape(id) + '"]');
-    if (!card) {
-      state.query = '';
-      els.search.value = '';
-      renderCases();
-      card = els.caseList.querySelector('[data-case-id="' + cssEscape(id) + '"]');
-    }
-    if (!card) return;
-    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    card.classList.add('is-highlighted');
-    window.setTimeout(function () {
-      card.classList.remove('is-highlighted');
-    }, 1400);
-  }
-
   function wireReveal() {
     var targets = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window) {
@@ -848,10 +759,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     return escapeHtml(value);
   }
 
-  function cssEscape(value) {
-    if (window.CSS && CSS.escape) return CSS.escape(value);
-    return String(value).replace(/"/g, '\\"');
-  }
 });
 </script>
 </body>
