@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI/IP Litigation Tracker &middot; IP &amp; Technology Law at IU</title>
+<link rel="stylesheet" href="../../theme-toggle.css">
+<script src="../../theme-toggle.js"></script>
+<style>
+  :root {
+    --bg: #0b0d10;
+    --bg-elev: #101317;
+    --ink: #e9e7e1;
+    --ink-dim: #a8a59c;
+    --ink-faint: #6c6a64;
+    --rule: rgba(233, 231, 225, 0.08);
+    --rule-strong: rgba(233, 231, 225, 0.16);
+    --glass-bg: rgba(255, 255, 255, 0.025);
+    --glass-bg-hover: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-hover: rgba(255, 255, 255, 0.18);
+    --glass-highlight: rgba(255, 255, 255, 0.12);
+    --serif: "Times New Roman", Times, Georgia, serif;
+    --sans: "Times New Roman", Times, Georgia, serif;
+    --mono: "Times New Roman", Times, Georgia, serif;
+    --max: 1200px;
+    --gold: #c9a84c;
+    --resolved: #4a4a4a;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  html, body { margin: 0; padding: 0; }
+  html { background: var(--bg); }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg);
+    font-size: 16px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  *, *::before, *::after { border-radius: 0 !important; }
+
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; }
+
+  .bg {
+    position: fixed; inset: 0; z-index: -2;
+    background: radial-gradient(ellipse at top, #12161b 0%, #0b0d10 55%, #08090b 100%);
+    overflow: hidden;
+  }
+  .bg::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.88 0 0 0 0 0.84 0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .orb {
+    position: absolute;
+    width: 60vmax; height: 60vmax;
+    filter: blur(120px);
+    opacity: 0.35;
+    will-change: transform;
+  }
+  .cursor-glow {
+    position: fixed;
+    top: 0; left: 0;
+    width: 640px; height: 640px;
+    margin-left: -320px; margin-top: -320px;
+    background: radial-gradient(circle, rgba(220, 230, 245, 0.32), rgba(220, 230, 245, 0.10) 28%, rgba(220, 230, 245, 0.03) 55%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+    transform: translate3d(50vw, 50vh, 0);
+    transition: opacity 600ms ease;
+    opacity: 0;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+  .cursor-glow.is-visible { opacity: 1; }
+  @media (hover: none) { .cursor-glow { display: none; } }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 900ms cubic-bezier(.2,.7,.2,1), transform 900ms cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
+
+  .orb.a { background: radial-gradient(circle, rgba(80, 110, 160, 0.55), transparent 60%); top: -20vmax; left: -20vmax; animation: drift1 38s ease-in-out infinite alternate; }
+  .orb.b { background: radial-gradient(circle, rgba(160, 130, 90, 0.35), transparent 60%); bottom: -25vmax; right: -20vmax; animation: drift2 46s ease-in-out infinite alternate; }
+  .orb.c { background: radial-gradient(circle, rgba(70, 130, 120, 0.28), transparent 60%); top: 30vmax; left: 30vmax; animation: drift3 54s ease-in-out infinite alternate; }
+
+  @keyframes drift1 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(8vmax, 6vmax, 0) scale(1.15); } }
+  @keyframes drift2 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-10vmax, -4vmax, 0) scale(1.1); } }
+  @keyframes drift3 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-6vmax, 8vmax, 0) scale(0.95); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orb { animation: none !important; }
+  }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 640px) { .wrap { padding: 0 20px; } }
+
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(11, 13, 16, 0.55);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 80px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    letter-spacing: -1.9px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .brand .slash {
+    width: 20px;
+    height: 45px;
+    background: #B22222;
+    clip-path: polygon(65.6% 0, 100% 0, 34.4% 100%, 0 100%);
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex; gap: 32px;
+    margin-left: auto;
+    font-size: 13px; color: var(--ink-dim);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; margin: 0; }
+  h1 { font-size: clamp(40px, 5.4vw, 72px); line-height: 0.98; letter-spacing: -0.025em; }
+  h2 { font-size: clamp(28px, 3.4vw, 44px); line-height: 1; letter-spacing: -0.015em; }
+  h3 { font-size: 20px; line-height: 1.2; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+  .lead { color: var(--ink-dim); font-size: 18px; line-height: 1.6; max-width: 640px; }
+  .small { font-size: 13px; color: var(--ink-dim); }
+  .mono { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--ink-dim); }
+
+  section { padding: 120px 0; position: relative; }
+  section + section { border-top: 1px solid var(--rule); }
+  @media (max-width: 760px) { section { padding: 80px 0; } }
+
+  .tracker-hero { padding-top: 128px; padding-bottom: 72px; }
+  .tracker-hero .eyebrow { display: block; margin-bottom: 24px; }
+  .tracker-hero .lead { margin: 32px 0 0; }
+  .stat-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 40px;
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--ink-dim);
+  }
+  .stat-strip strong { color: var(--ink); font-weight: 400; }
+
+  .tracker-section { padding-top: 72px; }
+  .tracker-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 38%) minmax(0, 62%);
+    gap: 64px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .tracker-layout { grid-template-columns: 1fr; gap: 56px; }
+  }
+
+  .activity-panel .eyebrow,
+  .case-index .eyebrow { display: block; margin-bottom: 20px; }
+
+  .activity-list,
+  .case-list { border-top: 1px solid var(--rule); }
+  .activity-item {
+    border-bottom: 1px solid var(--rule);
+    padding: 16px 0;
+  }
+  .activity-item.is-significant { border-left: 2px solid var(--gold); padding-left: 14px; }
+  .activity-case {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.35;
+    cursor: pointer;
+    text-align: left;
+  }
+  .activity-case:hover { color: var(--gold); }
+  .activity-date {
+    margin-top: 6px;
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+  .activity-summary {
+    margin: 8px 0 0;
+    color: var(--ink-dim);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .activity-badge,
+  .timeline-badge {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .activity-badge.significant,
+  .timeline-badge.significant { color: var(--gold); }
+  .activity-badge.resolved,
+  .timeline-badge.resolved { color: var(--resolved); }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--ink);
+    font-size: 14px;
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--glass-border-hover); }
+  .search-input::placeholder { color: var(--ink-faint); }
+
+  .filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .filter-pill {
+    appearance: none;
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--ink-dim);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 4px 12px;
+  }
+  .filter-pill.is-active {
+    color: var(--ink);
+    border-color: var(--glass-border-hover);
+  }
+
+  .case-card {
+    border-bottom: 1px solid var(--rule);
+    padding: 20px 0;
+    cursor: pointer;
+    transition: background 360ms ease, border-color 360ms ease;
+  }
+  .case-card:hover,
+  .case-card.is-highlighted { background: var(--glass-bg-hover); }
+  .case-card.is-expanded { background: var(--glass-bg); }
+  .case-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: start;
+  }
+  .case-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .case-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .external-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--glass-border);
+    color: var(--ink-faint);
+    font-size: 13px;
+    flex: 0 0 auto;
+  }
+  .external-link:hover {
+    color: var(--ink);
+    border-color: var(--glass-border-hover);
+  }
+  .case-meta {
+    margin-top: 7px;
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+  .case-status-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .status-badge {
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    line-height: 1.2;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .status-badge.resolved,
+  .status-badge.needs-review {
+    border-color: var(--resolved);
+    color: var(--resolved);
+  }
+  .posture-tag {
+    color: var(--ink-dim);
+    font-size: 12px;
+  }
+  .claim-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .claim-tag {
+    background: var(--glass-bg);
+    color: var(--ink-faint);
+    font-size: 11px;
+    line-height: 1.2;
+    padding: 4px 8px;
+  }
+  .case-summary {
+    margin: 14px 0 0;
+    color: var(--ink-dim);
+    font-size: 13px;
+    line-height: 1.55;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .case-updated {
+    margin-top: 14px;
+    color: var(--ink-faint);
+    font-size: 11px;
+  }
+  .case-expanded .case-summary,
+  .expanded-summary {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+  }
+  .case-expanded-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 300ms ease;
+  }
+  .expanded-inner {
+    padding-top: 24px;
+  }
+  .expanded-section + .expanded-section {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+  }
+  .expanded-section .eyebrow { margin-bottom: 14px; }
+  .timeline-entry {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .timeline-entry:last-child { border-bottom: 0; }
+  .timeline-date {
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+  .timeline-summary {
+    margin-top: 6px;
+    color: var(--ink-dim);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .ruling-entry {
+    border-left: 2px solid var(--gold);
+    padding: 10px 0 10px 14px;
+  }
+  .ruling-entry + .ruling-entry { margin-top: 14px; }
+  .ruling-date {
+    color: var(--ink-faint);
+    font-size: 12px;
+  }
+  .ruling-description {
+    margin-top: 6px;
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .ruling-summary {
+    margin-top: 6px;
+    color: var(--ink-dim);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .empty-state {
+    border-top: 1px solid var(--rule);
+    color: var(--ink-dim);
+    font-size: 13px;
+    padding: 20px 0;
+  }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 32px 0;
+  }
+  .foot-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .foot-row a { color: var(--ink-dim); }
+  .foot-row a:hover { color: var(--ink); }
+  .foot-row .links { display: flex; gap: 28px; }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+</div>
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="brand" aria-label="ip&amp;tl@iu"><span class="slash" aria-hidden="true"></span><span>ip&amp;tl@iu</span></a>
+    <nav class="nav-links">
+      <a href="/index.html#focus">Focus</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/index.html#people">People</a>
+      <a href="/index.html#contact">Contact</a>
+      <a href="/tools/litigation-tracker/" aria-current="page" style="color: var(--ink);">Tools</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="tracker-hero" data-screen-label="Litigation Tracker Hero">
+    <div class="wrap reveal">
+      <p class="eyebrow">Tools &mdash; IP &amp; Technology Law at IU</p>
+      <h1>AI/IP Litigation Tracker</h1>
+      <p class="lead">Federal court cases involving artificial intelligence and intellectual property law. Updated automatically every five days.</p>
+      <div class="stat-strip">
+        <span><strong id="stat-active">&mdash;</strong> Active Cases</span>
+        <span><strong id="stat-courts">&mdash;</strong> Courts</span>
+        <span>Updated <strong id="stat-updated">&mdash;</strong></span>
+        <span><strong id="stat-rulings">&mdash;</strong> Significant Rulings</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="tracker-section" data-screen-label="Tracker">
+    <div class="wrap tracker-layout">
+      <aside class="activity-panel reveal" aria-labelledby="recent-activity-title">
+        <span class="eyebrow" id="recent-activity-title">Recent Activity</span>
+        <div class="activity-list" id="activity-list"></div>
+      </aside>
+
+      <section class="case-index reveal" aria-labelledby="case-index-title">
+        <span class="eyebrow" id="case-index-title">Case Index</span>
+        <input class="search-input" id="case-search" type="search" placeholder="Search cases, parties, claims&hellip;" autocomplete="off">
+        <div class="filter-pills" id="filter-pills" aria-label="Case filters">
+          <button class="filter-pill is-active" type="button" data-filter="all">All</button>
+          <button class="filter-pill" type="button" data-filter="active">Active</button>
+          <button class="filter-pill" type="button" data-filter="resolved">Resolved</button>
+          <button class="filter-pill" type="button" data-filter="copyright">Copyright</button>
+          <button class="filter-pill" type="button" data-filter="patent">Patent</button>
+          <button class="filter-pill" type="button" data-filter="trade secret">Trade Secret</button>
+          <button class="filter-pill" type="button" data-filter="right of publicity">Right of Publicity</button>
+        </div>
+        <div class="case-list" id="case-list"></div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>IP &amp; TECHNOLOGY LAW AT IU &middot; INDIANA UNIVERSITY BLOOMINGTON &middot; 2026</span>
+    <span class="links">
+      <a href="/index.html#focus">Focus</a>
+      <a href="/index.html#people">People</a>
+      <a href="/apply.html">Apply</a>
+      <a href="/submit.html">Submit</a>
+    </span>
+  </div>
+</footer>
+
+<script src="../../site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+  var state = {
+    cases: [],
+    updates: [],
+    filter: 'all',
+    query: '',
+    expandedId: null
+  };
+
+  var els = {
+    active: document.getElementById('stat-active'),
+    courts: document.getElementById('stat-courts'),
+    updated: document.getElementById('stat-updated'),
+    rulings: document.getElementById('stat-rulings'),
+    activity: document.getElementById('activity-list'),
+    caseList: document.getElementById('case-list'),
+    search: document.getElementById('case-search'),
+    filters: document.getElementById('filter-pills')
+  };
+
+  try {
+    var payload = await Promise.all([
+      fetch('./cases.json').then(function (r) {
+        if (!r.ok) throw new Error('cases.json ' + r.status);
+        return r.json();
+      }),
+      fetch('./updates.json').then(function (r) {
+        if (!r.ok) throw new Error('updates.json ' + r.status);
+        return r.json();
+      })
+    ]);
+    state.cases = Array.isArray(payload[0]) ? payload[0] : [];
+    state.updates = Array.isArray(payload[1]) ? payload[1] : [];
+  } catch (err) {
+    state.cases = [];
+    state.updates = [];
+    console.warn('Tracker data unavailable:', err);
+  }
+
+  renderStats();
+  renderActivity();
+  renderCases();
+  wireControls();
+  wireReveal();
+
+  function renderStats() {
+    els.active.textContent = state.cases.filter(function (c) { return c.status === 'active'; }).length;
+    els.courts.textContent = new Set(state.cases.map(function (c) { return c.court; }).filter(Boolean)).size;
+    els.updated.textContent = formatDate(mostRecentDate(state.cases.map(function (c) { return c.last_updated; }))) || '\u2014';
+    els.rulings.textContent = state.cases.reduce(function (sum, c) {
+      return sum + ((c.key_rulings && c.key_rulings.length) || 0);
+    }, 0);
+  }
+
+  function renderActivity() {
+    var entries = state.updates.slice(0, 40);
+    if (!entries.length) {
+      els.activity.innerHTML = '<div class="empty-state">No recent docket updates yet.</div>';
+      return;
+    }
+    els.activity.innerHTML = entries.map(function (entry) {
+      var significance = entry.significance || 'minor_update';
+      var label = significanceLabel(significance);
+      var badge = label ? '<div class="activity-badge ' + significanceClass(significance) + '">' + label + '</div>' : '';
+      return '<article class="activity-item ' + (significance === 'significant_ruling' ? 'is-significant' : '') + '">' +
+        '<button class="activity-case" type="button" data-case-id="' + escapeAttr(entry.case_id) + '">' + escapeHtml(entry.case_name || 'Untitled case') + '</button>' +
+        '<div class="activity-date">' + escapeHtml(formatDate(entry.entry_date) || entry.entry_date || '') + '</div>' +
+        '<p class="activity-summary">' + escapeHtml(entry.summary || 'Summary pending.') + '</p>' +
+        badge +
+      '</article>';
+    }).join('');
+
+    els.activity.querySelectorAll('.activity-case').forEach(function (button) {
+      button.addEventListener('click', function () {
+        scrollToCase(button.getAttribute('data-case-id'));
+      });
+    });
+  }
+
+  function renderCases() {
+    var cases = filteredCases();
+    if (!cases.length) {
+      els.caseList.innerHTML = '<div class="empty-state">No cases match the current view.</div>';
+      return;
+    }
+    els.caseList.innerHTML = cases.map(renderCaseCard).join('');
+    els.caseList.querySelectorAll('.case-card').forEach(function (card) {
+      var id = card.getAttribute('data-case-id');
+      var panel = card.querySelector('.case-expanded-panel');
+      if (state.expandedId === id) {
+        card.classList.add('is-expanded');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+      card.addEventListener('click', function () {
+        toggleCase(id);
+      });
+      card.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggleCase(id);
+        }
+      });
+      card.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          event.stopPropagation();
+        });
+      });
+    });
+  }
+
+  function renderCaseCard(item) {
+    var status = item.status || 'active';
+    var tags = (item.claims || []).concat(item.tags || []).slice(0, 6);
+    var timeline = (item.docket_entries || []).slice().sort(sortByDateDesc);
+    var rulings = item.key_rulings || [];
+    return '<article class="case-card" data-case-id="' + escapeAttr(item.id) + '" tabindex="0">' +
+      '<div class="case-top">' +
+        '<div>' +
+          '<div class="case-title-row">' +
+            '<h2 class="case-title">' + escapeHtml(item.name || 'Untitled case') + '</h2>' +
+            externalLink(item) +
+          '</div>' +
+          '<div class="case-meta">' + escapeHtml([item.court, item.docket_number].filter(Boolean).join(' · ')) + '</div>' +
+        '</div>' +
+        '<div class="case-status-row">' +
+          '<span class="status-badge ' + statusClass(status) + '">' + escapeHtml(statusLabel(status)) + '</span>' +
+          '<span class="posture-tag">' + escapeHtml(item.procedural_posture || '') + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="claim-tags">' + tags.map(function (tag) { return '<span class="claim-tag">' + escapeHtml(tag) + '</span>'; }).join('') + '</div>' +
+      '<p class="case-summary">' + escapeHtml(item.plain_language_summary || '') + '</p>' +
+      '<div class="case-updated">Last updated ' + escapeHtml(formatDate(item.last_updated) || item.last_updated || '') + '</div>' +
+      '<div class="case-expanded-panel">' +
+        '<div class="expanded-inner">' +
+          '<div class="expanded-section">' +
+            '<p class="expanded-summary small">' + escapeHtml(item.plain_language_summary || '') + '</p>' +
+          '</div>' +
+          '<div class="expanded-section">' +
+            '<span class="eyebrow">Case Timeline</span>' +
+            renderTimeline(timeline) +
+          '</div>' +
+          renderRulings(rulings) +
+        '</div>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function renderTimeline(entries) {
+    if (!entries.length) {
+      return '<div class="empty-state">No docket entries logged yet.</div>';
+    }
+    return entries.map(function (entry) {
+      var label = significanceLabel(entry.significance);
+      var badge = label ? '<div class="timeline-badge ' + significanceClass(entry.significance) + '">' + label + '</div>' : '';
+      return '<div class="timeline-entry">' +
+        '<div class="timeline-date">' + escapeHtml(formatDate(entry.date) || entry.date || '') + '</div>' +
+        '<div class="timeline-summary">' + escapeHtml(entry.summary || entry.raw_text || 'Summary pending.') + '</div>' +
+        badge +
+      '</div>';
+    }).join('');
+  }
+
+  function renderRulings(rulings) {
+    if (!rulings.length) return '';
+    return '<div class="expanded-section">' +
+      '<span class="eyebrow">Key Rulings</span>' +
+      rulings.map(function (ruling) {
+        return '<div class="ruling-entry">' +
+          '<div class="ruling-date">' + escapeHtml(formatDate(ruling.date) || ruling.date || '') + '</div>' +
+          '<div class="ruling-description">' + escapeHtml(ruling.description || '') + '</div>' +
+          '<div class="ruling-summary">' + escapeHtml(ruling.summary || '') + '</div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  function externalLink(item) {
+    if (!item.courtlistener_url) return '';
+    return '<a class="external-link" href="' + escapeAttr(item.courtlistener_url) + '" target="_blank" rel="noopener noreferrer" aria-label="Open CourtListener docket for ' + escapeAttr(item.name || 'case') + '">&#8599;</a>';
+  }
+
+  function wireControls() {
+    els.search.addEventListener('input', function () {
+      state.query = els.search.value.trim().toLowerCase();
+      state.expandedId = null;
+      renderCases();
+    });
+
+    els.filters.querySelectorAll('.filter-pill').forEach(function (button) {
+      button.addEventListener('click', function () {
+        state.filter = button.getAttribute('data-filter');
+        state.expandedId = null;
+        els.filters.querySelectorAll('.filter-pill').forEach(function (pill) {
+          pill.classList.toggle('is-active', pill === button);
+        });
+        renderCases();
+      });
+    });
+  }
+
+  function filteredCases() {
+    return state.cases.slice().sort(sortCases).filter(function (item) {
+      var matchesQuery = true;
+      if (state.query) {
+        var parties = item.parties || {};
+        var text = [
+          item.name,
+          item.plain_language_summary,
+          (item.tags || []).join(' '),
+          parties.plaintiff,
+          parties.defendant
+        ].join(' ').toLowerCase();
+        matchesQuery = text.indexOf(state.query) !== -1;
+      }
+      if (!matchesQuery) return false;
+      if (state.filter === 'all') return true;
+      if (state.filter === 'active' || state.filter === 'resolved') return item.status === state.filter;
+      return (item.claims || []).some(function (claim) {
+        return String(claim).toLowerCase().indexOf(state.filter) !== -1;
+      });
+    });
+  }
+
+  function toggleCase(id) {
+    state.expandedId = state.expandedId === id ? null : id;
+    els.caseList.querySelectorAll('.case-card').forEach(function (card) {
+      var panel = card.querySelector('.case-expanded-panel');
+      var open = card.getAttribute('data-case-id') === state.expandedId;
+      card.classList.toggle('is-expanded', open);
+      panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+    });
+  }
+
+  function scrollToCase(id) {
+    if (!id) return;
+    var card = els.caseList.querySelector('[data-case-id="' + cssEscape(id) + '"]');
+    if (!card) {
+      state.filter = 'all';
+      state.query = '';
+      els.search.value = '';
+      els.filters.querySelectorAll('.filter-pill').forEach(function (pill) {
+        pill.classList.toggle('is-active', pill.getAttribute('data-filter') === 'all');
+      });
+      renderCases();
+      card = els.caseList.querySelector('[data-case-id="' + cssEscape(id) + '"]');
+    }
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.add('is-highlighted');
+    window.setTimeout(function () {
+      card.classList.remove('is-highlighted');
+    }, 1400);
+  }
+
+  function wireReveal() {
+    var targets = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      targets.forEach(function (target) { io.observe(target); });
+    } else {
+      targets.forEach(function (target) { target.classList.add('is-in'); });
+    }
+  }
+
+  function mostRecentDate(values) {
+    return values.filter(Boolean).sort().pop() || '';
+  }
+
+  function formatDate(value) {
+    if (!value) return '';
+    var date = new Date(value + (/^\d{4}-\d{2}-\d{2}$/.test(value) ? 'T00:00:00' : ''));
+    if (Number.isNaN(date.getTime())) return '';
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  function sortCases(a, b) {
+    return String(b.last_updated || b.date_filed || '').localeCompare(String(a.last_updated || a.date_filed || ''));
+  }
+
+  function sortByDateDesc(a, b) {
+    var dateCompare = String(b.date || '').localeCompare(String(a.date || ''));
+    if (dateCompare !== 0) return dateCompare;
+    return Number(b.entry_number || 0) - Number(a.entry_number || 0);
+  }
+
+  function statusLabel(status) {
+    if (status === 'needs_review') return 'Needs Review';
+    return status ? status.charAt(0).toUpperCase() + status.slice(1) : 'Active';
+  }
+
+  function statusClass(status) {
+    if (status === 'resolved') return 'resolved';
+    if (status === 'needs_review') return 'needs-review';
+    return 'active';
+  }
+
+  function significanceLabel(significance) {
+    if (significance === 'significant_ruling') return 'Significant Ruling';
+    if (significance === 'case_resolved') return 'Resolved';
+    return '';
+  }
+
+  function significanceClass(significance) {
+    if (significance === 'significant_ruling') return 'significant';
+    if (significance === 'case_resolved') return 'resolved';
+    return '';
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function escapeAttr(value) {
+    return escapeHtml(value);
+  }
+
+  function cssEscape(value) {
+    if (window.CSS && CSS.escape) return CSS.escape(value);
+    return String(value).replace(/"/g, '\\"');
+  }
+});
+</script>
+</body>
+</html>
