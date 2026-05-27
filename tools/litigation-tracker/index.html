@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI/IP Litigation Tracker &middot; IP &amp; Technology Law at IU</title>
+<title>Litigation Tracker &middot; IP &amp; Technology Law at IU</title>
 <link rel="stylesheet" href="../../theme-toggle.css">
 <script src="../../theme-toggle.js"></script>
 <style>
@@ -248,26 +248,6 @@
   .search-input:focus { border-color: var(--glass-border-hover); }
   .search-input::placeholder { color: var(--ink-faint); }
 
-  .filter-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 16px 0;
-  }
-  .filter-pill {
-    appearance: none;
-    background: transparent;
-    border: 1px solid var(--glass-border);
-    color: var(--ink-dim);
-    cursor: pointer;
-    font-size: 12px;
-    padding: 4px 12px;
-  }
-  .filter-pill.is-active {
-    color: var(--ink);
-    border-color: var(--glass-border-hover);
-  }
-
   .case-card {
     border-bottom: 1px solid var(--rule);
     padding: 20px 0;
@@ -476,8 +456,8 @@
   <section class="tracker-hero" data-screen-label="Litigation Tracker Hero">
     <div class="wrap reveal">
       <p class="eyebrow">Tools &mdash; IP &amp; Technology Law at IU</p>
-      <h1>AI/IP Litigation Tracker</h1>
-      <p class="lead">Federal court cases involving artificial intelligence and intellectual property law. Updated automatically every five days.</p>
+      <h1>Litigation Tracker</h1>
+      <p class="lead">Tracking federal cases at the intersection of intellectual property, technology, artificial intelligence, software, platforms, and emerging digital rights. Updated automatically every five days.</p>
       <div class="stat-strip">
         <span><strong id="stat-active">&mdash;</strong> Active Cases</span>
         <span><strong id="stat-courts">&mdash;</strong> Courts</span>
@@ -497,15 +477,6 @@
       <section class="case-index reveal" aria-labelledby="case-index-title">
         <span class="eyebrow" id="case-index-title">Case Index</span>
         <input class="search-input" id="case-search" type="search" placeholder="Search cases, parties, claims&hellip;" autocomplete="off">
-        <div class="filter-pills" id="filter-pills" aria-label="Case filters">
-          <button class="filter-pill is-active" type="button" data-filter="all">All</button>
-          <button class="filter-pill" type="button" data-filter="active">Active</button>
-          <button class="filter-pill" type="button" data-filter="resolved">Resolved</button>
-          <button class="filter-pill" type="button" data-filter="copyright">Copyright</button>
-          <button class="filter-pill" type="button" data-filter="patent">Patent</button>
-          <button class="filter-pill" type="button" data-filter="trade secret">Trade Secret</button>
-          <button class="filter-pill" type="button" data-filter="right of publicity">Right of Publicity</button>
-        </div>
         <div class="case-list" id="case-list"></div>
       </section>
     </div>
@@ -530,7 +501,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   var state = {
     cases: [],
     updates: [],
-    filter: 'all',
     query: '',
     expandedId: null
   };
@@ -542,8 +512,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     rulings: document.getElementById('stat-rulings'),
     activity: document.getElementById('activity-list'),
     caseList: document.getElementById('case-list'),
-    search: document.getElementById('case-search'),
-    filters: document.getElementById('filter-pills')
+    search: document.getElementById('case-search')
   };
 
   try {
@@ -714,16 +683,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       renderCases();
     });
 
-    els.filters.querySelectorAll('.filter-pill').forEach(function (button) {
-      button.addEventListener('click', function () {
-        state.filter = button.getAttribute('data-filter');
-        state.expandedId = null;
-        els.filters.querySelectorAll('.filter-pill').forEach(function (pill) {
-          pill.classList.toggle('is-active', pill === button);
-        });
-        renderCases();
-      });
-    });
   }
 
   function filteredCases() {
@@ -740,12 +699,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         ].join(' ').toLowerCase();
         matchesQuery = text.indexOf(state.query) !== -1;
       }
-      if (!matchesQuery) return false;
-      if (state.filter === 'all') return true;
-      if (state.filter === 'active' || state.filter === 'resolved') return item.status === state.filter;
-      return (item.claims || []).some(function (claim) {
-        return String(claim).toLowerCase().indexOf(state.filter) !== -1;
-      });
+      return matchesQuery;
     });
   }
 
@@ -763,12 +717,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (!id) return;
     var card = els.caseList.querySelector('[data-case-id="' + cssEscape(id) + '"]');
     if (!card) {
-      state.filter = 'all';
       state.query = '';
       els.search.value = '';
-      els.filters.querySelectorAll('.filter-pill').forEach(function (pill) {
-        pill.classList.toggle('is-active', pill.getAttribute('data-filter') === 'all');
-      });
       renderCases();
       card = els.caseList.querySelector('[data-case-id="' + cssEscape(id) + '"]');
     }
