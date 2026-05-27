@@ -1,0 +1,131 @@
+/* ============================================================
+   Theme toggle — sits inline inside the nav (after nav-links).
+   Drives all chrome from CSS vars; dark (0) to light (1).
+   ============================================================ */
+
+/* Inline toggle, part of the nav row */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 28px;
+  flex-shrink: 0;
+  user-select: none;
+  font-family: var(--mono, ui-monospace, monospace);
+}
+
+.theme-toggle .tt-icon {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 50% !important; /* override global no-radius */
+  opacity: 0.85;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.theme-toggle .tt-moon {
+  background: var(--ink-dim, #a8a59c);
+  box-shadow: inset -2px -1px 0 0 var(--bg, #0b0d10);
+}
+.theme-toggle .tt-sun {
+  background: var(--ink-dim, #a8a59c);
+  box-shadow: 0 0 0 1px var(--ink-dim, #a8a59c);
+}
+.theme-toggle:hover .tt-icon { opacity: 1; }
+
+.theme-toggle input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 96px;
+  height: 14px;             /* hit area */
+  background: transparent;  /* track drawn via pseudo */
+  outline: none;
+  margin: 0;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* Track — a thin hairline that picks up the rule color */
+.theme-toggle input[type="range"]::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--ink-faint, #6c6a64);
+  border-radius: 0 !important;
+}
+.theme-toggle input[type="range"]::-moz-range-track {
+  height: 1px;
+  background: var(--ink-faint, #6c6a64);
+  border-radius: 0 !important;
+}
+
+/* Thumb — small ink-colored dot */
+.theme-toggle input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: var(--ink, #e9e7e1);
+  border: 0;
+  cursor: grab;
+  border-radius: 50% !important;
+  margin-top: -4.5px;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+  box-shadow: 0 0 0 0 rgba(0,0,0,0);
+}
+.theme-toggle input[type="range"]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: var(--ink, #e9e7e1);
+  border: 0;
+  cursor: grab;
+  border-radius: 50% !important;
+}
+.theme-toggle input[type="range"]:hover::-webkit-slider-thumb,
+.theme-toggle input[type="range"]:focus-visible::-webkit-slider-thumb {
+  transform: scale(1.25);
+  box-shadow: 0 0 0 3px var(--glass-bg-hover, rgba(255,255,255,0.06));
+}
+.theme-toggle input[type="range"]:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.4);
+}
+.theme-toggle input[type="range"]:focus { outline: none; }
+
+/* On narrow viewports where the nav-links collapse, also collapse the
+   toggle into a small floating pill so it stays accessible */
+@media (max-width: 760px) {
+  .theme-toggle {
+    position: fixed;
+    top: 22px;
+    right: 16px;
+    margin: 0;
+    padding: 7px 12px;
+    background: rgba(127,127,127,0.10);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid var(--rule, rgba(255,255,255,0.12));
+    z-index: 60;
+  }
+  .theme-toggle input[type="range"] { width: 72px; }
+}
+
+/* ——— Drive existing chrome from CSS vars set by theme-toggle.js ——— */
+.bg {
+  background: radial-gradient(
+    ellipse at top,
+    var(--bg-top, #12161b) 0%,
+    var(--bg-base, #0b0d10) 55%,
+    var(--bg-bottom, #08090b) 100%
+  ) !important;
+}
+.bg::after { opacity: var(--grain-opacity, 0.5) !important; }
+.orb { opacity: var(--orb-opacity, 0.35) !important; }
+.cursor-glow.is-visible { opacity: var(--glow-opacity, 1) !important; }
+.nav { background: rgba(var(--bg-rgb, 11,13,16), 0.62) !important; }
+
+/* Smooth color transitions when user drags */
+html, body, .nav, .form, .cta, .pub, .person, .three > div, .focus > div,
+.hero, h1, h2, h3, p, a, .eyebrow, .mono, label, input, textarea, select, button {
+  transition: background-color 240ms ease, color 240ms ease, border-color 240ms ease, opacity 240ms ease;
+}

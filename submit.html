@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submit Your Work · IP &amp; Technology Law at IU</title>
+<link rel="stylesheet" href="site-chrome.css">
+<link rel="stylesheet" href="theme-toggle.css">
+<script src="theme-toggle.js"></script>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+</div>
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="brand" aria-label="ip&amp;tl@iu">
+      <span class="slash" aria-hidden="true"></span>
+      <span class="name">ip&amp;tl@iu</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#focus">Focus</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#people">People</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero" data-screen-label="Submit Hero">
+  <div class="wrap">
+    <span class="eyebrow">Open Call · Research &amp; Writing</span>
+    <h1 data-reveal>Submit your work for publication.</h1>
+  </div>
+</section>
+
+<section class="form-section" data-screen-label="Submit Form">
+  <div class="wrap">
+    <form class="form netlify-form"
+          name="research-submission"
+          method="POST"
+          action="/"
+          enctype="multipart/form-data"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          data-success-message="Thanks — we’ve received your submission. We read carefully and will be in touch as time allows.">
+      <input type="hidden" name="form-name" value="research-submission">
+      <p class="hp-field" aria-hidden="true">
+        <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+      </p>
+
+      <div class="row">
+        <div class="field">
+          <label for="s-name">Author name</label>
+          <input id="s-name" name="author-name" type="text" placeholder="First Last" required="" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="s-email">IU email</label>
+          <input id="s-email" name="email" type="email" placeholder="you@iu.edu" required="" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="s-title">Piece title</label>
+        <input id="s-title" name="piece-title" type="text" placeholder="Working title is fine" required="">
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="s-topic">Topic area</label>
+          <select id="s-topic" name="topic-area">
+            <option value="" disabled="" selected="">Select…</option>
+            <option value="Copyright">Copyright</option>
+            <option value="Patent">Patent</option>
+            <option value="Trademark">Trademark</option>
+            <option value="AI &amp; the law">AI &amp; the law</option>
+            <option value="Platform regulation">Platform regulation</option>
+            <option value="Privacy &amp; data">Privacy &amp; data</option>
+            <option value="Open source &amp; licensing">Open source &amp; licensing</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="s-coauthors">Co-authors <span style="text-transform:none; letter-spacing:0; color: var(--ink-faint)">— optional</span></label>
+          <input id="s-coauthors" name="co-authors" type="text" placeholder="Names, separated by commas">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="s-abstract">Abstract or summary</label>
+        <textarea id="s-abstract" name="abstract" placeholder="A paragraph or two. What is the piece arguing, and what does a reader walk away knowing?" required=""></textarea>
+      </div>
+
+      <div class="field file-field">
+        <label for="s-file">Manuscript file</label>
+        <input id="s-file" name="submission-file" type="file" accept=".pdf,.doc,.docx,.txt,.md,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        <span class="file-hint">PDF, DOC, DOCX, MD or TXT</span>
+      </div>
+
+      <button class="submit" type="submit">
+        <span>Submit for publication</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </button>
+      <div class="form-status" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>IP &amp; TECHNOLOGY LAW AT IU · INDIANA UNIVERSITY BLOOMINGTON · 2026</span>
+    <span class="links">
+      <a href="index.html#focus">Focus</a>
+      <a href="index.html#people">People</a>
+      <a href="apply.html">Apply</a>
+      <a href="submit.html">Submit</a>
+    </span>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>IP &amp; Technology Law at IU — Blog</title>
+    <link>https://iptl.indiana.edu/blog.html</link>
+    <atom:link href="https://iptl.indiana.edu/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>A weekly publication on technology, artificial intelligence, machine learning, cryptocurrency, and digital infrastructure in relation to law and policy. Written by IU Bloomington undergraduates. Launching Fall 2026.</description>
+    <language>en-us</language>
+    <copyright>© 2026 IP &amp; Technology Law at IU · Indiana University Bloomington</copyright>
+    <managingEditor>iptl@indiana.edu (IP&amp;TL@IU Editorial Board)</managingEditor>
+    <webMaster>iptl@indiana.edu (IP&amp;TL@IU)</webMaster>
+    <lastBuildDate>Sun, 24 May 2026 00:00:00 -0500</lastBuildDate>
+    <generator>IP&amp;TL@IU — handwritten</generator>
+    <ttl>1440</ttl>
+    <!-- No posts yet. The first item will appear here when the publication goes live. -->
+  </channel>
+</rss>

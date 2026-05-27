@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog · IP &amp; Technology Law at IU</title>
+<meta name="description" content="A weekly publication on technology, AI, ML, crypto, and digital infrastructure in relation to law and policy.">
+<link rel="alternate" type="application/rss+xml" title="IP&amp;TL@IU — Blog" href="feed.xml">
+<link rel="stylesheet" href="site-chrome.css">
+<link rel="stylesheet" href="blog.css">
+<link rel="stylesheet" href="theme-toggle.css">
+<script src="theme-toggle.js"></script>
+<style>
+  /* Page-local: empty-state + category index */
+  .pre-launch {
+    padding-top: 64px;
+    padding-bottom: 120px;
+  }
+  .pre-launch .wrap { max-width: var(--max); }
+
+  .first-post {
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule);
+    padding: 80px 0;
+    text-align: center;
+  }
+  .first-post .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 24px;
+  }
+  .first-post h2 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.4vw, 40px);
+    line-height: 1.15;
+    color: var(--ink);
+    max-width: 22ch;
+    margin: 0 auto;
+  }
+  .first-post p {
+    margin: 24px auto 0;
+    max-width: 52ch;
+    color: var(--ink-dim);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .first-post .meta {
+    margin-top: 28px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* Category index — 3×3 grid of the publication's sections */
+  .cat-index-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 96px 0 28px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cat-index-head h2 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3vw, 38px);
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .cat-index-head .sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .cat-index {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .cat-card {
+    background: var(--bg);
+    padding: 28px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 180px;
+    transition: background 220ms ease;
+    position: relative;
+    color: inherit;
+  }
+  .cat-card:hover { background: var(--glass-bg-hover); }
+  .cat-card .cat-tag { align-self: flex-start; }
+  .cat-card .ti {
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+  .cat-card .desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-dim);
+    flex: 1;
+  }
+  .cat-card .count-row {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .cat-card .arrow {
+    color: var(--ink-faint);
+    transition: transform 220ms ease, color 220ms ease;
+  }
+  .cat-card:hover .arrow { color: var(--ink); transform: translateX(4px); }
+  @media (max-width: 960px) { .cat-index { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .cat-index { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+</div>
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="brand" aria-label="ip&amp;tl@iu">
+      <span class="slash" aria-hidden="true"></span>
+      <span class="name">ip&amp;tl@iu</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#focus">Focus</a>
+      <a href="blog.html" aria-current="page" style="color: var(--ink);">Blog</a>
+      <a href="index.html#people">People</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="blog-hero" data-screen-label="Blog Hero">
+  <div class="wrap">
+    <span class="eyebrow">Blog</span>
+    <h1>Notes from the working group.</h1>
+    <p class="lead">A weekly publication on technology, artificial intelligence, machine learning, cryptocurrency, and digital infrastructure in relation to law and policy. Written by IU Bloomington undergraduates.</p>
+    <div class="meta-row">
+      <span>Published Fridays</span>
+      <span class="dot" aria-hidden="true"></span>
+      <span>Launching Fall 2026</span>
+      <span class="dot" aria-hidden="true"></span>
+      <a href="feed.xml">RSS</a>
+    </div>
+  </div>
+</section>
+
+<section class="pre-launch" data-screen-label="Pre-launch">
+  <div class="wrap">
+
+    <!-- ——— Empty state ——— -->
+    <div class="first-post">
+      <div class="label">Status</div>
+      <h2>The first post lands when the first post lands.</h2>
+      <p>This page will fill with weekly entries beginning Fall 2026.</p>
+      <div class="meta">No posts yet · 0 entries · Subscribe via RSS to get the first one</div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>IP &amp; TECHNOLOGY LAW AT IU · INDIANA UNIVERSITY BLOOMINGTON · 2026</span>
+    <span class="links">
+      <a href="index.html#focus">Focus</a>
+      <a href="index.html#people">People</a>
+      <a href="blog.html">Blog</a>
+      <a href="feed.xml">RSS</a>
+    </span>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>
