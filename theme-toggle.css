@@ -16,16 +16,16 @@
 .theme-toggle button {
   appearance: none;
   -webkit-appearance: none;
-  width: 70px;
-  height: 32px;
+  width: 46px;
+  height: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 8px;
   border: 1px solid var(--glass-border, rgba(255,255,255,0.10));
   background: var(--glass-bg, rgba(255,255,255,0.035));
   color: var(--ink-dim, #a8a59c);
-  padding: 3px;
+  padding: 0;
   cursor: pointer;
   border-radius: 0;
   transition: color 200ms ease, border-color 200ms ease, background 200ms ease, transform 200ms ease;
@@ -45,51 +45,31 @@
 
 .theme-toggle button:active { transform: translateY(1px); }
 
-.theme-toggle .tt-option {
-  width: 30px;
-  height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  color: var(--ink-faint, #6c6a64);
-  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
-}
-
 .theme-toggle .tt-icon {
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
   display: inline-block;
   flex-shrink: 0;
   border-radius: 50% !important; /* override global no-radius */
-  opacity: 0.72;
-  position: relative;
+  opacity: 0.36;
   transition: opacity 200ms ease, transform 200ms ease, background 200ms ease, box-shadow 200ms ease;
 }
 .theme-toggle .tt-moon {
-  background: currentColor;
-  box-shadow: inset -4px -2px 0 0 var(--bg, #0b0d10);
+  background: var(--ink-dim, #a8a59c);
+  box-shadow: inset -2px -1px 0 0 var(--bg, #0b0d10);
 }
 .theme-toggle .tt-sun {
-  background: currentColor;
-  box-shadow: 0 0 0 2px var(--glass-bg-hover, rgba(255,255,255,0.07));
+  background: var(--ink-dim, #a8a59c);
+  box-shadow: 0 0 0 1px var(--ink-dim, #a8a59c);
 }
-
-.theme-toggle[data-mode="dark"] .tt-option-moon,
-.theme-toggle[data-mode="light"] .tt-option-sun {
-  color: var(--ink, #e9e7e1);
-  background: var(--glass-bg-hover, rgba(255,255,255,0.07));
-  border-color: var(--glass-border-hover, rgba(255,255,255,0.22));
-}
-
-.theme-toggle[data-mode="dark"] .tt-option-moon .tt-icon,
-.theme-toggle[data-mode="light"] .tt-option-sun .tt-icon {
+.theme-toggle[data-mode="dark"] .tt-moon,
+.theme-toggle[data-mode="light"] .tt-sun {
   opacity: 1;
-  transform: scale(1.08);
+  transform: scale(1.2);
+  background: var(--ink, #e9e7e1);
 }
-
-.theme-toggle[data-mode="light"] .tt-option-sun .tt-sun {
-  box-shadow: 0 0 0 2px var(--glass-bg-hover, rgba(255,255,255,0.07));
+.theme-toggle[data-mode="light"] .tt-sun {
+  box-shadow: 0 0 0 1px var(--ink, #e9e7e1);
 }
 
 /* On narrow viewports where the nav-links collapse, also collapse the
