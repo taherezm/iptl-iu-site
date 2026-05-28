@@ -1,13 +1,14 @@
 /* ============================================================
    Theme toggle controller.
    Reads localStorage, applies CSS vars synchronously (no flash),
-   builds the slider UI when the body is available.
+   builds the toggle UI when the body is available.
    ============================================================ */
 (function(){
   var STORAGE_KEY = 'site-lum';
   var lum = parseFloat(localStorage.getItem(STORAGE_KEY));
   if (!isFinite(lum)) lum = 0;
   lum = Math.max(0, Math.min(1, lum));
+  lum = lum >= 0.5 ? 1 : 0;
 
   function smoothstep(a, b, x) {
     var t = Math.max(0, Math.min(1, (x - a) / (b - a)));
@@ -83,9 +84,10 @@
     var wrap = document.createElement('div');
     wrap.className = 'theme-toggle';
     wrap.innerHTML =
-      '<span class="tt-icon tt-moon" aria-hidden="true" title="Dark"></span>' +
-      '<input type="range" min="0" max="1" step="0.001" value="' + lum + '" aria-label="Background lightness">' +
-      '<span class="tt-icon tt-sun" aria-hidden="true" title="Light"></span>';
+      '<button type="button">' +
+        '<span class="tt-icon tt-moon" aria-hidden="true"></span>' +
+        '<span class="tt-icon tt-sun" aria-hidden="true"></span>' +
+      '</button>';
 
     // Prefer to sit inside the nav, after nav-links, so it feels native.
     var nav = document.querySelector('.nav .nav-inner');
@@ -95,10 +97,20 @@
       document.body.appendChild(wrap);
     }
 
-    var input = wrap.querySelector('input');
-    input.addEventListener('input', function(e){
-      lum = parseFloat(e.target.value);
+    var button = wrap.querySelector('button');
+    function syncButton() {
+      var light = lum >= 0.5;
+      wrap.dataset.mode = light ? 'light' : 'dark';
+      button.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode');
+      button.setAttribute('aria-pressed', light ? 'true' : 'false');
+      button.title = light ? 'Dark mode' : 'Light mode';
+    }
+
+    syncButton();
+    button.addEventListener('click', function(){
+      lum = lum >= 0.5 ? 0 : 1;
       apply(lum);
+      syncButton();
       try { localStorage.setItem(STORAGE_KEY, String(lum)); } catch(err){}
     });
   }
