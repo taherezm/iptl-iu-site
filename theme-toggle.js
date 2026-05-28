@@ -85,8 +85,8 @@
     wrap.className = 'theme-toggle';
     wrap.innerHTML =
       '<button type="button">' +
-        '<span class="tt-icon tt-moon" aria-hidden="true"></span>' +
-        '<span class="tt-icon tt-sun" aria-hidden="true"></span>' +
+        '<span class="tt-option tt-option-moon"><span class="tt-icon tt-moon" aria-hidden="true"></span></span>' +
+        '<span class="tt-option tt-option-sun"><span class="tt-icon tt-sun" aria-hidden="true"></span></span>' +
       '</button>';
 
     // Prefer to sit inside the nav, after nav-links, so it feels native.
