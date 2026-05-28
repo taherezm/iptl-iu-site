@@ -42,22 +42,21 @@
 
 <section class="form-section" data-screen-label="Apply Form">
   <div class="wrap">
-    <form class="form netlify-form"
+    <form class="form basin-form"
           name="membership"
           method="POST"
-          action="/"
-          enctype="multipart/form-data"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="membership">
+          action="https://usebasin.com/f/e2032128a50b"
+          accept-charset="UTF-8"
+          enctype="multipart/form-data">
+      <input type="hidden" name="subject" value="New membership application">
       <p class="hp-field" aria-hidden="true">
-        <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        <label>Don't fill this out if you're human: <input name="_gotcha" tabindex="-1" autocomplete="off"></label>
       </p>
 
       <div class="row">
         <div class="field">
           <label for="m-name">Full name</label>
-          <input id="m-name" name="full-name" type="text" placeholder="First Last" required="" autocomplete="name">
+          <input id="m-name" name="name" type="text" placeholder="First Last" required="" autocomplete="name">
         </div>
         <div class="field">
           <label for="m-email">IU email</label>

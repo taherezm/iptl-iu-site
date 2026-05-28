@@ -523,23 +523,37 @@
   }
   .form input::placeholder, .form textarea::placeholder { color: var(--ink-faint); }
   .form input:focus, .form textarea:focus { border-bottom-color: var(--ink-dim); }
-  .form .submit {
-    margin-top: 28px;
-    background: transparent;
-    border: 1px solid var(--rule-strong);
-    color: var(--ink);
-    padding: 14px 22px;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 220ms ease, border-color 220ms ease;
-    display: inline-flex; align-items: center; gap: 12px;
-  }
+	  .form .submit {
+	    margin-top: 28px;
+	    background: transparent;
+	    border: 1px solid var(--rule-strong);
+	    color: var(--ink);
+	    padding: 14px 22px;
+	    font-family: var(--mono);
+	    font-size: 11px;
+	    letter-spacing: 0.22em;
+	    text-transform: uppercase;
+	    cursor: pointer;
+	    transition: background 220ms ease, border-color 220ms ease;
+	    display: inline-flex; align-items: center; gap: 12px;
+	  }
   .form .submit:hover { background: rgba(255,255,255,0.04); border-color: var(--glass-border-hover); }
   .form .submit .arrow { transition: transform 220ms ease; }
   .form .submit:hover .arrow { transform: translateX(4px); }
+  .form .contact-note {
+    margin: 22px 0 0;
+    color: var(--ink-dim);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .form .inquiry-mail {
+    display: inline-block;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    padding-bottom: 6px;
+    word-break: break-word;
+  }
+  .form .inquiry-mail:hover { border-color: var(--ink); }
 
   @media (max-width: 860px) {
     .contact-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -571,36 +585,6 @@
     color: var(--ink-faint);
   }
 
-  /* honeypot — never visible to real users */
-  .hp-field { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
-
-  /* form status messages */
-  .form-status {
-    margin-top: 20px;
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    line-height: 1.5;
-  }
-  .form-status.is-error { color: #e88; }
-  .form-success {
-    font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    line-height: 1.6;
-    color: var(--ink);
-    padding: 6px 0;
-  }
-  .form-success .eyebrow-tag {
-    display: inline-block;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    border: 1px solid var(--rule-strong);
-    padding: 5px 10px;
-    margin-bottom: 18px;
-  }
 </style>
 </head>
 <body>
@@ -822,22 +806,15 @@
         <p>For general inquiries, research collaborations, or to express interest in joining a working group, write directly. We respond as time allows.</p>
         <a class="email" href="mailto:undergradtechlaw@iu.edu">undergradtechlaw@iu.edu</a>
       </div>
-      <form class="form netlify-form" name="inquiry" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/">
-        <input type="hidden" name="form-name" value="inquiry">
-        <p class="hp-field" aria-hidden="true">
-          <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-        </p>
-        <label for="i-name">Inquiry</label>
-        <input id="i-name" name="message" type="text" placeholder="Your name, and what you'd like to discuss" required="">
-        <div style="height:24px"></div>
-        <label for="i-email">Reply to</label>
-        <input id="i-email" name="email" type="email" placeholder="email@iu.edu" required="">
-        <button class="submit" type="submit">
-          <span>Send inquiry</span>
+      <div class="form contact-card">
+        <label>General inquiries</label>
+        <a class="inquiry-mail" href="mailto:undergradtechlaw@iu.edu?subject=IP%20%26%20Technology%20Law%20Inquiry">undergradtechlaw@iu.edu</a>
+        <p class="contact-note">Use this address for research collaborations, working group interest, and questions that do not belong in the application or publication forms.</p>
+        <a class="submit" href="mailto:undergradtechlaw@iu.edu?subject=IP%20%26%20Technology%20Law%20Inquiry">
+          <span>Open email</span>
           <span class="arrow">→</span>
-        </button>
-        <div class="form-status" role="status" aria-live="polite"></div>
-      </form>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -888,50 +865,6 @@
     targets.forEach(function(el){ el.classList.add('is-in'); });
   }
 
-  // Netlify Forms — async submit, inline confirmation/error, no redirect
-  function encodeFormData(formData){
-    var pairs = [];
-    formData.forEach(function(value, key){
-      if (value instanceof File) return;
-      pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
-    });
-    return pairs.join('&');
-  }
-
-  document.querySelectorAll('form.netlify-form').forEach(function(form){
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      var status = form.querySelector('.form-status');
-      var btn = form.querySelector('button[type="submit"]');
-      if (status){ status.classList.remove('is-error'); status.textContent = ''; }
-      if (btn){ btn.disabled = true; var label = btn.querySelector('span:first-child'); if (label) label.textContent = 'Sending…'; }
-
-      var fd = new FormData(form);
-      var hasFile = form.enctype === 'multipart/form-data';
-      var fetchOpts = hasFile
-        ? { method: 'POST', body: fd }
-        : { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: encodeFormData(fd) };
-
-      fetch(form.getAttribute('action') || '/', fetchOpts)
-        .then(function(res){
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          var done = document.createElement('div');
-          done.className = 'form-success';
-          done.innerHTML =
-            '<span class="eyebrow-tag">Received</span>' +
-            '<div>Thanks — we’ve received your submission. We read carefully and reply as time allows.</div>';
-          form.replaceWith(done);
-        })
-        .catch(function(err){
-          if (status){
-            status.classList.add('is-error');
-            status.textContent = 'Something went wrong sending that. Please email us directly at undergradtechlaw@iu.edu.';
-          }
-          if (btn){ btn.disabled = false; var label = btn.querySelector('span:first-child'); if (label) label.textContent = 'Send inquiry'; }
-          console.error('Form submission failed:', err);
-        });
-    });
-  });
 })();
 </script>
 

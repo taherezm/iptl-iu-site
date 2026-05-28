@@ -42,23 +42,21 @@
 
 <section class="form-section" data-screen-label="Submit Form">
   <div class="wrap">
-    <form class="form netlify-form"
+    <form class="form basin-form"
           name="research-submission"
           method="POST"
-          action="/"
-          enctype="multipart/form-data"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          data-success-message="Thanks — we’ve received your submission. We read carefully and will be in touch as time allows.">
-      <input type="hidden" name="form-name" value="research-submission">
+          action="https://usebasin.com/f/eda739bd091b"
+          accept-charset="UTF-8"
+          enctype="multipart/form-data">
+      <input type="hidden" name="subject" value="New publication submission">
       <p class="hp-field" aria-hidden="true">
-        <label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        <label>Don't fill this out if you're human: <input name="_gotcha" tabindex="-1" autocomplete="off"></label>
       </p>
 
       <div class="row">
         <div class="field">
           <label for="s-name">Author name</label>
-          <input id="s-name" name="author-name" type="text" placeholder="First Last" required="" autocomplete="name">
+          <input id="s-name" name="name" type="text" placeholder="First Last" required="" autocomplete="name">
         </div>
         <div class="field">
           <label for="s-email">IU email</label>
