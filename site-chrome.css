@@ -25,6 +25,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+@media (max-width: 760px) { html { scroll-padding-top: 132px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 html, body { margin: 0; padding: 0; }
 html { background: var(--bg); }
@@ -138,8 +139,40 @@ a { color: inherit; text-decoration: none; }
   font-size: 13px; color: var(--ink-dim);
   font-family: var(--sans);
 }
+.nav-links a { white-space: nowrap; }
 .nav-links a:hover { color: var(--ink); }
-@media (max-width: 760px) { .nav-links { display: none; } }
+@media (max-width: 760px) {
+  .nav-inner {
+    height: auto;
+    min-height: 72px;
+    flex-wrap: wrap;
+    row-gap: 12px;
+    padding-top: 16px;
+    padding-bottom: 12px;
+  }
+  .brand {
+    gap: 8px;
+    font-size: 32px;
+    letter-spacing: -1.3px;
+  }
+  .brand .slash {
+    width: 16px;
+    height: 36px;
+  }
+  .nav-links {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    padding: 10px 0 2px;
+    gap: 22px;
+    overflow-x: auto;
+    border-top: 1px solid var(--rule);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { flex: 0 0 auto; }
+}
 
 /* ——— Type ——— */
 h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; margin: 0; }

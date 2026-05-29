@@ -72,15 +72,13 @@
   box-shadow: 0 0 0 1px var(--ink, #e9e7e1);
 }
 
-/* On narrow viewports where the nav-links collapse, also collapse the
-   toggle into a small floating pill so it stays accessible */
+/* On narrow viewports, keep the toggle in the first nav row. */
 @media (max-width: 760px) {
   .theme-toggle {
-    position: fixed;
-    top: 22px;
-    right: 16px;
-    margin: 0;
-    z-index: 60;
+    position: static;
+    order: 2;
+    margin-left: auto;
+    z-index: auto;
   }
   .theme-toggle button {
     background: rgba(127,127,127,0.10);

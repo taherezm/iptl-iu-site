@@ -28,6 +28,7 @@
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+  @media (max-width: 760px) { html { scroll-padding-top: 132px; } }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   html, body { margin: 0; padding: 0; }
   html { background: var(--bg); }
@@ -152,8 +153,40 @@
     margin-left: auto;
     font-size: 13px; color: var(--ink-dim);
   }
+  .nav-links a { white-space: nowrap; }
   .nav-links a:hover { color: var(--ink); }
-  @media (max-width: 760px) { .nav-links { display: none; } }
+  @media (max-width: 760px) {
+    .nav-inner {
+      height: auto;
+      min-height: 72px;
+      flex-wrap: wrap;
+      row-gap: 12px;
+      padding-top: 16px;
+      padding-bottom: 12px;
+    }
+    .brand {
+      gap: 8px;
+      font-size: 32px;
+      letter-spacing: -1.3px;
+    }
+    .brand .slash {
+      width: 16px;
+      height: 36px;
+    }
+    .nav-links {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+      padding: 10px 0 2px;
+      gap: 22px;
+      overflow-x: auto;
+      border-top: 1px solid var(--rule);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a { flex: 0 0 auto; }
+  }
 
   /* ——— Type ——— */
   h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; margin: 0; }
@@ -471,13 +504,9 @@
 
   /* ——— Contact ——— */
   .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: start;
+    max-width: 560px;
   }
-  .contact-grid .left h2 { margin-bottom: 24px; }
-  .contact-grid .left p { color: var(--ink-dim); max-width: 460px; }
+  .contact-grid .left p { color: var(--ink-dim); }
   .contact-grid .left .email {
     margin-top: 32px;
     font-family: var(--serif);
@@ -488,76 +517,6 @@
     display: inline-block;
   }
   .contact-grid .left .email:hover { color: var(--ink); border-color: var(--ink); }
-
-  .form {
-    background: var(--glass-bg);
-    backdrop-filter: blur(14px) saturate(140%);
-    border: 1px solid var(--glass-border);
-    padding: 32px;
-    position: relative;
-  }
-  .form::before {
-    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px;
-    background: linear-gradient(to right, transparent, var(--glass-highlight), transparent);
-  }
-  .form label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    display: block;
-    margin-bottom: 12px;
-  }
-  .form input, .form textarea {
-    width: 100%;
-    background: transparent;
-    border: 0;
-    border-bottom: 1px solid var(--rule-strong);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 15px;
-    padding: 12px 0;
-    outline: none;
-    resize: none;
-  }
-  .form input::placeholder, .form textarea::placeholder { color: var(--ink-faint); }
-  .form input:focus, .form textarea:focus { border-bottom-color: var(--ink-dim); }
-	  .form .submit {
-	    margin-top: 28px;
-	    background: transparent;
-	    border: 1px solid var(--rule-strong);
-	    color: var(--ink);
-	    padding: 14px 22px;
-	    font-family: var(--mono);
-	    font-size: 11px;
-	    letter-spacing: 0.22em;
-	    text-transform: uppercase;
-	    cursor: pointer;
-	    transition: background 220ms ease, border-color 220ms ease;
-	    display: inline-flex; align-items: center; gap: 12px;
-	  }
-  .form .submit:hover { background: rgba(255,255,255,0.04); border-color: var(--glass-border-hover); }
-  .form .submit .arrow { transition: transform 220ms ease; }
-  .form .submit:hover .arrow { transform: translateX(4px); }
-  .form .contact-note {
-    margin: 22px 0 0;
-    color: var(--ink-dim);
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  .form .inquiry-mail {
-    display: inline-block;
-    color: var(--ink);
-    border-bottom: 1px solid var(--rule-strong);
-    padding-bottom: 6px;
-    word-break: break-word;
-  }
-  .form .inquiry-mail:hover { border-color: var(--ink); }
-
-  @media (max-width: 860px) {
-    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  }
 
   /* ——— Footer ——— */
   footer {
@@ -805,15 +764,6 @@
       <div class="left">
         <p>For general inquiries, research collaborations, or to express interest in joining a working group, write directly. We respond as time allows.</p>
         <a class="email" href="mailto:undergradtechlaw@iu.edu">undergradtechlaw@iu.edu</a>
-      </div>
-      <div class="form contact-card">
-        <label>General inquiries</label>
-        <a class="inquiry-mail" href="mailto:undergradtechlaw@iu.edu?subject=IP%20%26%20Technology%20Law%20Inquiry">undergradtechlaw@iu.edu</a>
-        <p class="contact-note">Use this address for research collaborations, working group interest, and questions that do not belong in the application or publication forms.</p>
-        <a class="submit" href="mailto:undergradtechlaw@iu.edu?subject=IP%20%26%20Technology%20Law%20Inquiry">
-          <span>Open email</span>
-          <span class="arrow">→</span>
-        </a>
       </div>
     </div>
   </div>
