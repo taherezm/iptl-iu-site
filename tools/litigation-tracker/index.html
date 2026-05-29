@@ -342,8 +342,7 @@
     color: var(--ink-faint);
     font-size: 11px;
   }
-  .case-expanded .case-summary,
-  .expanded-summary {
+  .case-card.is-expanded .case-summary {
     display: block;
     overflow: visible;
     -webkit-line-clamp: unset;
@@ -628,9 +627,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       '<div class="case-updated">Last updated ' + escapeHtml(formatDate(item.last_updated) || item.last_updated || '') + '</div>' +
       '<div class="case-expanded-panel">' +
         '<div class="expanded-inner">' +
-          '<div class="expanded-section">' +
-            '<p class="expanded-summary small">' + escapeHtml(item.plain_language_summary || '') + '</p>' +
-          '</div>' +
           '<div class="expanded-section">' +
             '<span class="eyebrow">Case Timeline</span>' +
             renderTimeline(timeline) +
