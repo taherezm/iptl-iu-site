@@ -53,8 +53,9 @@
 
   .bg {
     position: fixed; inset: 0; z-index: -2;
-    background: radial-gradient(ellipse at top, #12161b 0%, #0b0d10 55%, #08090b 100%);
-    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.025), transparent 260px),
+      #0b0d10;
   }
   .bg::after {
     content: "";
@@ -64,46 +65,6 @@
     mix-blend-mode: overlay;
     pointer-events: none;
   }
-  .orb {
-    position: absolute;
-    width: 60vmax; height: 60vmax;
-    filter: blur(120px);
-    opacity: 0.35;
-    will-change: transform;
-  }
-  .cursor-glow {
-    position: fixed;
-    top: 0; left: 0;
-    width: 640px; height: 640px;
-    margin-left: -320px; margin-top: -320px;
-    background: radial-gradient(circle, rgba(220, 230, 245, 0.32), rgba(220, 230, 245, 0.10) 28%, rgba(220, 230, 245, 0.03) 55%, transparent 70%);
-    pointer-events: none;
-    z-index: -1;
-    transform: translate3d(50vw, 50vh, 0);
-    transition: opacity 600ms ease;
-    opacity: 0;
-    mix-blend-mode: screen;
-    will-change: transform;
-  }
-  .cursor-glow.is-visible { opacity: 1; }
-  @media (hover: none) { .cursor-glow { display: none; } }
-
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 900ms cubic-bezier(.2,.7,.2,1), transform 900ms cubic-bezier(.2,.7,.2,1); }
-  .reveal.is-in { opacity: 1; transform: translateY(0); }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; transform: none !important; transition: none !important; } }
-
-  .orb.a { background: radial-gradient(circle, rgba(80, 110, 160, 0.55), transparent 60%); top: -20vmax; left: -20vmax; animation: drift1 38s ease-in-out infinite alternate; }
-  .orb.b { background: radial-gradient(circle, rgba(160, 130, 90, 0.35), transparent 60%); bottom: -25vmax; right: -20vmax; animation: drift2 46s ease-in-out infinite alternate; }
-  .orb.c { background: radial-gradient(circle, rgba(70, 130, 120, 0.28), transparent 60%); top: 30vmax; left: 30vmax; animation: drift3 54s ease-in-out infinite alternate; }
-
-  @keyframes drift1 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(8vmax, 6vmax, 0) scale(1.15); } }
-  @keyframes drift2 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-10vmax, -4vmax, 0) scale(1.1); } }
-  @keyframes drift3 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-6vmax, 8vmax, 0) scale(0.95); } }
-
-  @media (prefers-reduced-motion: reduce) {
-    .orb { animation: none !important; }
-  }
-
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
   @media (max-width: 640px) { .wrap { padding: 0 20px; } }
 
@@ -250,10 +211,11 @@
     }
   }
 
-  .tracker-section { padding-top: 40px; }
+  .tracker-section { padding-top: 56px; }
   .tracker-layout {
     display: block;
   }
+  .case-index { padding: 0 0 120px; }
 
   .case-index .eyebrow { display: block; margin-bottom: 20px; }
 
@@ -467,16 +429,40 @@
     text-transform: none;
     color: var(--ink-faint);
   }
+
+  @media (max-width: 640px) {
+    .tracker-hero {
+      padding-top: 96px;
+      padding-bottom: 40px;
+    }
+    .tracker-hero .lead,
+    .case-summary,
+    .timeline-summary,
+    .ruling-summary {
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+    .tracker-section { padding-top: 40px; }
+    .case-index { padding-bottom: 80px; }
+    .case-top {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .case-title-row { align-items: flex-start; }
+    .case-title {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .case-status-row {
+      justify-content: flex-start;
+    }
+  }
 </style>
 </head>
 <body>
 
 <div class="bg" aria-hidden="true">
-  <div class="orb a"></div>
-  <div class="orb b"></div>
-  <div class="orb c"></div>
 </div>
-<div class="cursor-glow" aria-hidden="true"></div>
 
 <header class="nav">
   <div class="wrap nav-inner">
@@ -493,9 +479,9 @@
 
 <main>
   <section class="tracker-hero" data-screen-label="Litigation Tracker Hero">
-    <div class="wrap reveal">
+    <div class="wrap">
       <h1>Litigation Tracker</h1>
-      <p class="lead">Currently tracking federal cases on intellectual property, artificial intelligence, software, infringements, platforms, and emerging digital rights. Updated automatically every five day.</p>
+      <p class="lead">Currently tracking federal cases on intellectual property, artificial intelligence, software, infringements, platforms, and emerging digital rights. Updated automatically every five days.</p>
       <div class="stat-strip">
         <span><strong id="stat-active">&mdash;</strong> Active Cases</span>
         <span><strong id="stat-courts">&mdash;</strong> Courts</span>
@@ -513,7 +499,7 @@
 
   <section class="tracker-section" data-screen-label="Tracker">
     <div class="wrap tracker-layout">
-      <section class="case-index reveal" aria-labelledby="case-index-title">
+      <section class="case-index" aria-labelledby="case-index-title">
         <span class="eyebrow" id="case-index-title">Case Index</span>
         <input class="search-input" id="case-search" type="search" placeholder="Search cases, parties, claims&hellip;" autocomplete="off">
         <div class="case-list" id="case-list"></div>
@@ -577,7 +563,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   renderStats();
   renderCases();
   wireControls();
-  wireReveal();
 
   function renderStats() {
     els.active.textContent = state.cases.filter(function (c) { return c.status === 'active'; }).length;
@@ -725,23 +710,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       card.classList.toggle('is-expanded', open);
       panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
     });
-  }
-
-  function wireReveal() {
-    var targets = document.querySelectorAll('.reveal');
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-in');
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-      targets.forEach(function (target) { io.observe(target); });
-    } else {
-      targets.forEach(function (target) { target.classList.add('is-in'); });
-    }
   }
 
   function mostRecentDate(values) {

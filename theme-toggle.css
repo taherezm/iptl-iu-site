@@ -90,16 +90,11 @@
 
 /* ——— Drive existing chrome from CSS vars set by theme-toggle.js ——— */
 .bg {
-  background: radial-gradient(
-    ellipse at top,
-    var(--bg-top, #12161b) 0%,
-    var(--bg-base, #0b0d10) 55%,
-    var(--bg-bottom, #08090b) 100%
-  ) !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.025), transparent 260px),
+    var(--bg-base, #0b0d10) !important;
 }
 .bg::after { opacity: var(--grain-opacity, 0.5) !important; }
-.orb { opacity: var(--orb-opacity, 0.35) !important; }
-.cursor-glow.is-visible { opacity: var(--glow-opacity, 1) !important; }
 .nav { background: rgba(var(--bg-rgb, 11,13,16), 0.62) !important; }
 
 /* Smooth color transitions when user drags */

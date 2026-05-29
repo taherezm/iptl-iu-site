@@ -69,9 +69,7 @@
     r.style.setProperty('--glass-border-hover', rgb(ink, 0.22));
     r.style.setProperty('--glass-highlight', rgb(ink, 0.12));
 
-    // Atmospheric layers fade as we approach white
-    r.style.setProperty('--orb-opacity', (0.35 * (1 - l*0.85)).toFixed(3));
-    r.style.setProperty('--glow-opacity', (1 - l*0.85).toFixed(3));
+    // The grain fades as the background approaches white.
     r.style.setProperty('--grain-opacity', (0.5 * (1 - l*0.7)).toFixed(3));
 
     r.dataset.lum = l.toFixed(3);
