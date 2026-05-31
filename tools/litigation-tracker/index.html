@@ -375,10 +375,6 @@
     color: var(--ink);
     font-size: 14px;
   }
-  .activity-count {
-    color: var(--ink-faint);
-    font-size: 12px;
-  }
   .activity-note {
     margin-top: 6px;
     color: var(--ink-dim);
@@ -653,14 +649,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     return days.map(function (day) {
       var label = significanceLabel(day.significance);
       var badge = label ? '<div class="activity-badge ' + significanceClass(day.significance) + '">' + label + '</div>' : '';
-      var count = day.count > 1 ? '<span class="activity-count">' + day.count + ' docket items</span>' : '';
       var notes = day.notes.map(function (note) {
         return '<div class="activity-note">' + escapeHtml(note) + '</div>';
       }).join('');
       return '<div class="activity-day">' +
         '<div class="activity-date-row">' +
           '<div class="activity-date">' + escapeHtml(formatDate(day.date) || day.date || '') + '</div>' +
-          count +
           badge +
         '</div>' +
         notes +
