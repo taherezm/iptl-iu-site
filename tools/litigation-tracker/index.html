@@ -220,15 +220,14 @@
   .case-index .eyebrow { display: block; margin-bottom: 20px; }
 
   .case-list { border-top: 1px solid var(--rule); }
-  .timeline-badge {
+  .activity-badge {
     display: inline-block;
-    margin-top: 10px;
     font-size: 11px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
-  .timeline-badge.significant { color: var(--gold); }
-  .timeline-badge.resolved { color: var(--resolved); }
+  .activity-badge.significant { color: var(--gold); }
+  .activity-badge.resolved { color: var(--resolved); }
 
   .search-input {
     width: 100%;
@@ -361,16 +360,26 @@
     border-top: 1px solid var(--rule);
   }
   .expanded-section .eyebrow { margin-bottom: 14px; }
-  .timeline-entry {
+  .activity-day {
     padding: 14px 0;
     border-bottom: 1px solid var(--rule);
   }
-  .timeline-entry:last-child { border-bottom: 0; }
-  .timeline-date {
+  .activity-day:last-child { border-bottom: 0; }
+  .activity-date-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+  .activity-date {
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .activity-count {
     color: var(--ink-faint);
     font-size: 12px;
   }
-  .timeline-summary {
+  .activity-note {
     margin-top: 6px;
     color: var(--ink-dim);
     font-size: 13px;
@@ -436,7 +445,7 @@
     }
     .tracker-hero .lead,
     .case-summary,
-    .timeline-summary,
+    .activity-note,
     .ruling-summary {
       max-width: 100%;
       overflow-wrap: break-word;
@@ -606,7 +615,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   function renderCaseCard(item) {
     var status = item.status || 'active';
     var tags = (item.claims || []).concat(item.tags || []).slice(0, 6);
-    var timeline = (item.docket_entries || []).slice().sort(sortByDateDesc);
+    var activityDays = buildActivityDays(item.docket_entries || []);
     var rulings = item.key_rulings || [];
     return '<article class="case-card" data-case-id="' + escapeAttr(item.id) + '" tabindex="0">' +
       '<div class="case-top">' +
@@ -628,8 +637,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       '<div class="case-expanded-panel">' +
         '<div class="expanded-inner">' +
           '<div class="expanded-section">' +
-            '<span class="eyebrow">Case Timeline</span>' +
-            renderTimeline(timeline) +
+            '<span class="eyebrow">Activity Dates</span>' +
+            renderActivityDays(activityDays) +
           '</div>' +
           renderRulings(rulings) +
         '</div>' +
@@ -637,19 +646,69 @@ document.addEventListener('DOMContentLoaded', async function () {
     '</article>';
   }
 
-  function renderTimeline(entries) {
-    if (!entries.length) {
-      return '<div class="empty-state">No docket entries logged yet.</div>';
+  function renderActivityDays(days) {
+    if (!days.length) {
+      return '<div class="empty-state">No activity dates logged yet.</div>';
     }
-    return entries.map(function (entry) {
-      var label = significanceLabel(entry.significance);
-      var badge = label ? '<div class="timeline-badge ' + significanceClass(entry.significance) + '">' + label + '</div>' : '';
-      return '<div class="timeline-entry">' +
-        '<div class="timeline-date">' + escapeHtml(formatDate(entry.date) || entry.date || '') + '</div>' +
-        '<div class="timeline-summary">' + escapeHtml(entry.summary || entry.raw_text || 'Summary pending.') + '</div>' +
-        badge +
+    return days.map(function (day) {
+      var label = significanceLabel(day.significance);
+      var badge = label ? '<div class="activity-badge ' + significanceClass(day.significance) + '">' + label + '</div>' : '';
+      var count = day.count > 1 ? '<span class="activity-count">' + day.count + ' docket items</span>' : '';
+      var notes = day.notes.map(function (note) {
+        return '<div class="activity-note">' + escapeHtml(note) + '</div>';
+      }).join('');
+      return '<div class="activity-day">' +
+        '<div class="activity-date-row">' +
+          '<div class="activity-date">' + escapeHtml(formatDate(day.date) || day.date || '') + '</div>' +
+          count +
+          badge +
+        '</div>' +
+        notes +
       '</div>';
     }).join('');
+  }
+
+  function buildActivityDays(entries) {
+    var byDate = {};
+    entries.forEach(function (entry) {
+      var date = String(entry.date || '').trim();
+      if (!date) return;
+      if (!byDate[date]) {
+        byDate[date] = {
+          date: date,
+          count: 0,
+          notes: [],
+          significance: ''
+        };
+      }
+      byDate[date].count += 1;
+      var note = publicEntryText(entry);
+      if (note && byDate[date].notes.indexOf(note) === -1) {
+        byDate[date].notes.push(note);
+      }
+      byDate[date].significance = higherSignificance(byDate[date].significance, entry.significance);
+    });
+    return Object.keys(byDate).map(function (date) {
+      return byDate[date];
+    }).sort(sortActivityDaysDesc);
+  }
+
+  function publicEntryText(entry) {
+    return publicText(entry.summary) || publicText(entry.raw_text);
+  }
+
+  function publicText(value) {
+    var text = String(value == null ? '' : value).replace(/\s+/g, ' ').trim();
+    return isMissingEntryText(text) ? '' : text;
+  }
+
+  function isMissingEntryText(value) {
+    var text = String(value || '').toLowerCase();
+    return !text ||
+      text.indexOf('no docket entry text') !== -1 ||
+      text.indexOf('no entry text') !== -1 ||
+      text.indexOf('cannot summarize') !== -1 ||
+      text.indexOf('unable to summarize') !== -1;
   }
 
   function renderRulings(rulings) {
@@ -723,10 +782,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     return String(b.last_updated || b.date_filed || '').localeCompare(String(a.last_updated || a.date_filed || ''));
   }
 
-  function sortByDateDesc(a, b) {
-    var dateCompare = String(b.date || '').localeCompare(String(a.date || ''));
-    if (dateCompare !== 0) return dateCompare;
-    return Number(b.entry_number || 0) - Number(a.entry_number || 0);
+  function sortActivityDaysDesc(a, b) {
+    return String(b.date || '').localeCompare(String(a.date || ''));
+  }
+
+  function higherSignificance(current, next) {
+    if (current === 'case_resolved' || next === 'case_resolved') return 'case_resolved';
+    if (current === 'significant_ruling' || next === 'significant_ruling') return 'significant_ruling';
+    return current || next || '';
   }
 
   function statusLabel(status) {
