@@ -7,7 +7,7 @@
 .theme-toggle {
   display: inline-flex;
   align-items: center;
-  margin-left: 28px;
+  margin-left: 18px;
   flex-shrink: 0;
   user-select: none;
   font-family: var(--mono, ui-monospace, monospace);
@@ -16,26 +16,25 @@
 .theme-toggle button {
   appearance: none;
   -webkit-appearance: none;
-  width: 46px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  border: 1px solid var(--glass-border, rgba(255,255,255,0.10));
-  background: var(--glass-bg, rgba(255,255,255,0.035));
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--ink-dim, #a8a59c);
   padding: 0;
   cursor: pointer;
-  border-radius: 0;
+  border-radius: 999px !important;
   transition: color 200ms ease, border-color 200ms ease, background 200ms ease, transform 200ms ease;
 }
 
 .theme-toggle button:hover,
 .theme-toggle button:focus-visible {
   color: var(--ink, #e9e7e1);
-  border-color: var(--glass-border-hover, rgba(255,255,255,0.22));
-  background: var(--glass-bg-hover, rgba(255,255,255,0.07));
+  border-color: var(--rule, rgba(255,255,255,0.10));
+  background: var(--glass-bg, rgba(255,255,255,0.035));
 }
 
 .theme-toggle button:focus-visible {
@@ -45,31 +44,45 @@
 
 .theme-toggle button:active { transform: translateY(1px); }
 
+.theme-toggle .tt-track {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
 .theme-toggle .tt-icon {
-  width: 8px;
-  height: 8px;
-  display: inline-block;
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  border-radius: 50% !important; /* override global no-radius */
-  opacity: 0.36;
-  transition: opacity 200ms ease, transform 200ms ease, background 200ms ease, box-shadow 200ms ease;
+  color: var(--ink-faint, #6c6a64);
+  opacity: 0;
+  transition: color 200ms ease, opacity 200ms ease;
 }
-.theme-toggle .tt-moon {
-  background: var(--ink-dim, #a8a59c);
-  box-shadow: inset -2px -1px 0 0 var(--bg, #0b0d10);
+.theme-toggle .tt-icon svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
-.theme-toggle .tt-sun {
-  background: var(--ink-dim, #a8a59c);
-  box-shadow: 0 0 0 1px var(--ink-dim, #a8a59c);
+.theme-toggle[data-mode="dark"] .tt-sun,
+.theme-toggle[data-mode="light"] .tt-moon {
+  opacity: 0.68;
+  color: var(--ink-dim, #a8a59c);
 }
-.theme-toggle[data-mode="dark"] .tt-moon,
-.theme-toggle[data-mode="light"] .tt-sun {
+.theme-toggle[data-mode="dark"] button:hover .tt-sun,
+.theme-toggle[data-mode="dark"] button:focus-visible .tt-sun,
+.theme-toggle[data-mode="light"] button:hover .tt-moon,
+.theme-toggle[data-mode="light"] button:focus-visible .tt-moon {
   opacity: 1;
-  transform: scale(1.2);
-  background: var(--ink, #e9e7e1);
-}
-.theme-toggle[data-mode="light"] .tt-sun {
-  box-shadow: 0 0 0 1px var(--ink, #e9e7e1);
+  color: var(--ink, #e9e7e1);
 }
 
 /* On narrow viewports, keep the toggle in the first nav row. */
@@ -81,10 +94,7 @@
     z-index: auto;
   }
   .theme-toggle button {
-    background: rgba(127,127,127,0.10);
-    backdrop-filter: blur(14px) saturate(140%);
-    -webkit-backdrop-filter: blur(14px) saturate(140%);
-    border-color: var(--rule, rgba(255,255,255,0.12));
+    background: transparent;
   }
 }
 

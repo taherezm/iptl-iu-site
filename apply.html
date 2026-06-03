@@ -31,7 +31,6 @@
 
 <section class="page-hero" data-screen-label="Apply Hero">
   <div class="wrap">
-    <span class="eyebrow">Membership · Fall 2026</span>
     <h1>Apply to be a member</h1>
   </div>
 </section>
@@ -73,15 +72,24 @@
           </select>
         </div>
         <div class="field">
-          <label for="m-major">Major(s)</label>
-          <input id="m-major" name="major" type="text" placeholder="e.g. Informatics, Philosophy">
+          <label for="m-track">What are you applying for?</label>
+          <select id="m-track" name="application-track" required="">
+            <option value="" disabled="" selected="">Select…</option>
+            <option value="Researcher">Researcher</option>
+            <option value="Leadership">Leadership</option>
+          </select>
         </div>
+      </div>
+
+      <div class="field">
+        <label for="m-major">Major(s), Minor(s)</label>
+        <input id="m-major" name="major" type="text" placeholder="e.g. Informatics, Philosophy">
       </div>
 
       <div class="field file-field">
         <label for="m-resume">Resume</label>
         <input id="m-resume" name="resume" type="file" accept=".pdf,.doc,.docx" required="">
-        <span class="file-hint">PDF or Word · One page preferred</span>
+        <span class="file-hint">One Page PDF Preferred</span>
       </div>
 
       <button class="submit" type="submit">
@@ -95,7 +103,6 @@
 
 <footer>
   <div class="wrap foot-row">
-    <span>IP &amp; TECHNOLOGY LAW AT IU · INDIANA UNIVERSITY BLOOMINGTON · 2026</span>
     <span class="disclosure">Not affiliated with Indiana University Maurer School of Law</span>
     <span class="links">
       <a href="index.html#focus">Focus</a>

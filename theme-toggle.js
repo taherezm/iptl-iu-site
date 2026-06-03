@@ -83,8 +83,10 @@
     wrap.className = 'theme-toggle';
     wrap.innerHTML =
       '<button type="button">' +
-        '<span class="tt-icon tt-moon" aria-hidden="true"></span>' +
-        '<span class="tt-icon tt-sun" aria-hidden="true"></span>' +
+        '<span class="tt-track" aria-hidden="true">' +
+          '<span class="tt-icon tt-moon"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></span>' +
+          '<span class="tt-icon tt-sun"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M4.9 4.9l1.4 1.4"></path><path d="M17.7 17.7l1.4 1.4"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M4.9 19.1l1.4-1.4"></path><path d="M17.7 6.3l1.4-1.4"></path></svg></span>' +
+        '</span>' +
       '</button>';
 
     // Prefer to sit inside the nav, after nav-links, so it feels native.
