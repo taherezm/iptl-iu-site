@@ -117,6 +117,31 @@
     clip-path: polygon(65.6% 0, 100% 0, 34.4% 100%, 0 100%);
     flex-shrink: 0;
   }
+  .brand .name {
+    position: relative;
+    display: inline-block;
+    color: var(--ink);
+    transition: color 220ms ease;
+  }
+  .brand .name::after {
+    content: attr(data-hover-label);
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--ink);
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 220ms ease;
+  }
+  .brand:hover .name,
+  .brand:focus-visible .name {
+    color: transparent;
+  }
+  .brand:hover .name::after,
+  .brand:focus-visible .name::after {
+    opacity: 1;
+  }
   .nav-links {
     display: flex; gap: 32px;
     margin-left: auto;
@@ -522,7 +547,7 @@
 
 <header class="nav">
   <div class="wrap nav-inner">
-    <a href="#" class="brand" aria-label="undergradtechlaw@iu"><span class="slash" aria-hidden="true"></span><span>undergradtechlaw@iu</span></a>
+    <a href="#" class="brand" aria-label="undergradtechlaw@iu"><span class="slash" aria-hidden="true"></span><span class="name" data-hover-label="UTL@iu">undergradtechlaw@iu</span></a>
     <nav class="nav-links">
       <a href="#focus">Focus</a>
       <a href="#people">People</a>
