@@ -101,7 +101,7 @@ a { color: inherit; text-decoration: none; }
   font-family: "Helvetica Neue", Arial, sans-serif;
   letter-spacing: -1.9px;
   color: var(--ink);
-  transition: color 220ms ease;
+  transition: color 300ms ease;
 }
 .brand .name::after {
   content: attr(data-hover-label);
@@ -112,7 +112,7 @@ a { color: inherit; text-decoration: none; }
   opacity: 0;
   white-space: nowrap;
   pointer-events: none;
-  transition: opacity 220ms ease;
+  transition: opacity 300ms ease;
 }
 .brand:hover .name,
 .brand:focus-visible .name {
