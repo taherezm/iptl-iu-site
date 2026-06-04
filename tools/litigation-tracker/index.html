@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Litigation Tracker &middot; IP &amp; Technology Law at IU</title>
+<title>Litigation Tracker &middot; Undergraduate Technology Law at IU</title>
 <link rel="icon" href="../../assets/site-mark.svg" type="image/svg+xml">
 <link rel="icon" href="../../assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
@@ -11,7 +11,7 @@
 <meta property="og:image" content="https://www.undergradtechlaw.org/assets/site-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Red slash mark for IP &amp; Technology Law at IU">
+<meta property="og:image:alt" content="Red slash mark for Undergraduate Technology Law at IU">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://www.undergradtechlaw.org/assets/site-image.png">
 <link rel="stylesheet" href="../../theme-toggle.css">
@@ -364,6 +364,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
     min-width: 0;
   }
   .case-title {
@@ -375,17 +376,47 @@
   .external-link {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    min-height: 24px;
+    padding: 3px 8px;
     border: 1px solid var(--glass-border);
     color: var(--ink-faint);
-    font-size: 13px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
     flex: 0 0 auto;
+    transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
   }
   .external-link:hover {
+    background: var(--glass-bg-hover);
     color: var(--ink);
     border-color: var(--glass-border-hover);
+  }
+  .external-link:focus-visible {
+    outline: 1px solid rgba(201, 168, 76, 0.65);
+    outline-offset: 3px;
+  }
+  .external-link-icon {
+    position: relative;
+    width: 9px;
+    height: 9px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    flex: 0 0 auto;
+  }
+  .external-link-icon::after {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: -1px;
+    width: 12px;
+    height: 1px;
+    background: currentColor;
+    transform: rotate(-45deg);
+    transform-origin: right center;
   }
   .case-meta {
     margin-top: 7px;
@@ -824,7 +855,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   function externalLink(item) {
     if (!item.courtlistener_url) return '';
-    return '<a class="external-link" href="' + escapeAttr(item.courtlistener_url) + '" target="_blank" rel="noopener noreferrer" aria-label="Open CourtListener docket for ' + escapeAttr(item.name || 'case') + '">&#8599;</a>';
+    return '<a class="external-link" href="' + escapeAttr(item.courtlistener_url) + '" target="_blank" rel="noopener noreferrer" aria-label="Open CourtListener docket for ' + escapeAttr(item.name || 'case') + '" title="Open docket">' +
+      '<span>View docket</span><span class="external-link-icon" aria-hidden="true"></span>' +
+    '</a>';
   }
 
   function wireControls() {
