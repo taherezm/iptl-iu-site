@@ -38,7 +38,7 @@
 }
 
 .theme-toggle button:focus-visible {
-  outline: 1px solid var(--ink-faint, #6c6a64);
+  outline: 1px solid var(--ink-faint, #7c7a72);
   outline-offset: 3px;
 }
 
@@ -58,7 +58,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--ink-faint, #6c6a64);
+  color: var(--ink-faint, #7c7a72);
   opacity: 0;
   transition: color 200ms ease, opacity 200ms ease;
 }

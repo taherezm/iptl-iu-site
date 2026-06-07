@@ -47,7 +47,9 @@
     var inkT = smoothstep(0.42, 0.58, l);
     var ink      = mix('#e9e7e1', '#15140f', inkT);
     var inkDim   = mix('#a8a59c', '#46443d', inkT);
-    var inkFaint = mix('#7c7a72', '#8a877e', inkT);
+    var inkFaint = mix('#7c7a72', '#6f6a5f', inkT);
+    var gold     = mix('#c9a84c', '#80651b', l);
+    var resolved = mix('#a8a59c', '#5a554c', l);
 
     r.style.setProperty('--bg', rgb(bg));
     r.style.setProperty('--bg-base', rgb(bg));
@@ -59,6 +61,8 @@
     r.style.setProperty('--ink', rgb(ink));
     r.style.setProperty('--ink-dim', rgb(inkDim));
     r.style.setProperty('--ink-faint', rgb(inkFaint));
+    r.style.setProperty('--gold', rgb(gold));
+    r.style.setProperty('--resolved', rgb(resolved));
 
     // Rules + glass tints follow ink color
     r.style.setProperty('--rule', rgb(ink, 0.10));

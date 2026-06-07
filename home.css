@@ -1,0 +1,306 @@
+/* ============================================================
+   Home page layout for Undergraduate Technology Law at IU.
+   Shared chrome, nav, type, and footer live in site-chrome.css.
+   ============================================================ */
+
+.focus > div,
+.person {
+  transition: background 360ms ease, border-color 360ms ease, box-shadow 360ms ease, transform 360ms ease;
+}
+.focus > div:hover { background: var(--glass-bg-hover); }
+.person:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 30px 50px -22px rgba(0,0,0,0.6);
+  transform: translateY(-2px);
+}
+
+.home-page .sec-head {
+  display: block;
+  margin-bottom: 64px;
+}
+.home-page .sec-head .label { display: none; }
+@media (max-width: 760px) {
+  .home-page .sec-head { margin-bottom: 40px; }
+}
+
+/* Hero */
+.hero {
+  padding-top: 160px;
+  padding-bottom: 160px;
+}
+.hero h1 { max-width: 14ch; }
+.hero-prose {
+  margin-top: 48px;
+  max-width: 62ch;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+.hero-prose p { margin: 0; color: var(--ink); }
+.hero-prose p + p { margin-top: 20px; }
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+}
+
+/* Open calls */
+.calls {
+  margin-top: 96px;
+  padding-top: 56px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+}
+.calls .eyebrow {
+  display: block;
+  margin-bottom: 32px;
+  opacity: 0.85;
+}
+.calls h3 {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 32px);
+  color: var(--ink);
+  max-width: 560px;
+  margin: 0 auto 8px;
+  line-height: 1.3;
+}
+.calls p.support {
+  color: var(--ink-dim);
+  font-size: 14px;
+  max-width: 540px;
+  margin: 0 auto 40px;
+}
+.cta-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.cta {
+  flex: 1;
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.2;
+  cursor: pointer;
+  position: relative;
+  transition: background 280ms ease, border-color 280ms ease;
+  min-height: 96px;
+  text-align: left;
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--glass-highlight), transparent);
+  pointer-events: none;
+  transition: opacity 280ms ease;
+}
+.cta .arrow {
+  font-family: var(--sans);
+  font-size: 20px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 280ms ease, transform 280ms ease;
+  color: var(--ink-dim);
+}
+.cta:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+}
+.cta:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+.cta-divider {
+  width: 1px;
+  background: var(--rule);
+  align-self: stretch;
+}
+.calls .foot-note {
+  margin-top: 28px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+}
+@media (max-width: 760px) {
+  .cta-row {
+    flex-direction: column;
+    max-width: 100%;
+  }
+  .cta-divider {
+    width: auto;
+    height: 1px;
+  }
+  .cta {
+    font-size: 18px;
+    padding: 24px 24px;
+    min-height: 0;
+  }
+}
+
+/* Focus areas */
+.focus {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+.focus > div {
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 40px 36px;
+  min-height: 300px;
+  position: relative;
+}
+.focus .idx {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.2em;
+  margin-bottom: 20px;
+}
+.focus h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+.focus p {
+  color: var(--ink-dim);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}
+@media (max-width: 860px) {
+  .focus { grid-template-columns: 1fr; }
+}
+
+/* People */
+.leaders {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.researchers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.person {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  padding: 28px 24px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+.person::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--glass-highlight), transparent);
+  pointer-events: none;
+}
+.person .role {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 24px;
+}
+.person .name {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.person .aff {
+  font-size: 12px;
+  color: var(--ink-dim);
+  margin-top: 6px;
+  letter-spacing: 0.02em;
+}
+.person .socials {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+}
+.person .socials a {
+  color: var(--ink-faint);
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 200ms ease, transform 200ms ease;
+}
+.person .socials a:hover {
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+.person .socials svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  fill: currentColor;
+}
+@media (max-width: 1000px) {
+  .leaders { grid-template-columns: repeat(2, 1fr); }
+  .researchers { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .leaders,
+  .researchers { grid-template-columns: 1fr; }
+}
+
+.roster-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 24px 0 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+
+/* Contact */
+.contact-grid { max-width: 560px; }
+.contact-grid .left p { color: var(--ink-dim); }
+.contact-grid .left .email {
+  margin-top: 32px;
+  font-family: var(--serif);
+  font-size: 26px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: 8px;
+  display: inline-block;
+}
+.contact-grid .left .email:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}

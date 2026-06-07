@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import json
-import re
+import html
 import sys
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
@@ -17,11 +17,10 @@ SITE_URL = "https://www.undergradtechlaw.org"
 PUBLIC_EMAIL = "undergradtechlaw@outlook.com"
 
 FORBIDDEN_TEXT = (
-    "IP & " + "Technology Law at IU",
-    "IP &amp; " + "Technology Law at IU",
-    "IP and " + "Technology Law at IU",
+    "ip & " + "technology law at iu",
+    "ip and " + "technology law at iu",
     "iptl" + "@indiana.edu",
-    "This page will " + "fill with entries " + "as they are ready.",
+    "this page will " + "fill with entries " + "as they are ready.",
 )
 
 REQUIRED_META_NAMES = (
@@ -167,7 +166,7 @@ def validate_forbidden_text() -> list[str]:
     for path in files:
         if not path.exists():
             continue
-        text = path.read_text(encoding="utf-8")
+        text = html.unescape(path.read_text(encoding="utf-8")).lower()
         for needle in FORBIDDEN_TEXT:
             if needle in text:
                 errors.append(f"{path.relative_to(ROOT)}: forbidden text remains: {needle}")

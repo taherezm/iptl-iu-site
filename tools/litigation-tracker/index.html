@@ -28,7 +28,7 @@
 <style>
   :root {
     --gold: #c9a84c;
-    --resolved: #4a4a4a;
+    --resolved: #a8a59c;
   }
 
   button, input { font: inherit; }
@@ -218,6 +218,56 @@
   .posture-tag {
     color: var(--ink-dim);
     font-size: 12px;
+  }
+  .case-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 24px;
+    padding: 3px 8px;
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+  .case-toggle:hover,
+  .case-toggle:focus-visible {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+    color: var(--ink);
+  }
+  .case-toggle:focus-visible {
+    outline: 1px solid rgba(201, 168, 76, 0.65);
+    outline-offset: 3px;
+  }
+  .case-toggle-icon {
+    position: relative;
+    width: 9px;
+    height: 9px;
+    flex: 0 0 auto;
+  }
+  .case-toggle-icon::before,
+  .case-toggle-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 9px;
+    height: 1px;
+    background: currentColor;
+  }
+  .case-toggle-icon::after {
+    transform: rotate(90deg);
+    transition: opacity 160ms ease;
+  }
+  .case-card.is-expanded .case-toggle-icon::after {
+    opacity: 0;
   }
   .claim-tags {
     display: flex;
@@ -411,6 +461,7 @@
     <div class="wrap tracker-layout">
       <section class="case-index" aria-labelledby="case-index-title">
         <span class="eyebrow" id="case-index-title">Case Index</span>
+        <label class="visually-hidden" for="case-search">Search cases</label>
         <input class="search-input" id="case-search" type="search" placeholder="Search cases, parties, claims&hellip;" autocomplete="off">
         <div class="case-list" id="case-list"></div>
       </section>
@@ -491,24 +542,18 @@ document.addEventListener('DOMContentLoaded', async function () {
     els.caseList.innerHTML = cases.map(renderCaseCard).join('');
     els.caseList.querySelectorAll('.case-card').forEach(function (card) {
       var id = card.getAttribute('data-case-id');
-      var panel = card.querySelector('.case-expanded-panel');
-      if (state.expandedId === id) {
-        card.classList.add('is-expanded');
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-      }
+      setCaseOpen(card, state.expandedId === id);
       card.addEventListener('click', function () {
         toggleCase(id);
       });
-      card.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          toggleCase(id);
-        }
-      });
-      card.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('click', function (event) {
+      card.querySelectorAll('a, button').forEach(function (control) {
+        control.addEventListener('click', function (event) {
           event.stopPropagation();
         });
+      });
+      var toggle = card.querySelector('.case-toggle');
+      toggle.addEventListener('click', function () {
+        toggleCase(id);
       });
     });
   }
@@ -518,11 +563,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     var tags = (item.claims || []).concat(item.tags || []).slice(0, 6);
     var activityDays = buildActivityDays(item.docket_entries || []);
     var rulings = item.key_rulings || [];
-    return '<article class="case-card" data-case-id="' + escapeAttr(item.id) + '" tabindex="0">' +
+    var caseId = safeId(item.id || item.name || 'case');
+    var titleId = 'case-title-' + caseId;
+    var panelId = 'case-panel-' + caseId;
+    var caseName = item.name || 'case';
+    return '<article class="case-card" data-case-id="' + escapeAttr(item.id) + '">' +
       '<div class="case-top">' +
         '<div>' +
           '<div class="case-title-row">' +
-            '<h2 class="case-title">' + escapeHtml(item.name || 'Untitled case') + '</h2>' +
+            '<h2 class="case-title" id="' + escapeAttr(titleId) + '">' + escapeHtml(item.name || 'Untitled case') + '</h2>' +
             externalLink(item) +
           '</div>' +
           '<div class="case-meta">' + escapeHtml([item.court, item.docket_number].filter(Boolean).join(' · ')) + '</div>' +
@@ -530,12 +579,15 @@ document.addEventListener('DOMContentLoaded', async function () {
         '<div class="case-status-row">' +
           '<span class="status-badge ' + statusClass(status) + '">' + escapeHtml(statusLabel(status)) + '</span>' +
           '<span class="posture-tag">' + escapeHtml(item.procedural_posture || '') + '</span>' +
+          '<button type="button" class="case-toggle" aria-expanded="false" aria-controls="' + escapeAttr(panelId) + '" data-case-name="' + escapeAttr(caseName) + '" aria-label="Show case activity for ' + escapeAttr(caseName) + '">' +
+            '<span>Details</span><span class="case-toggle-icon" aria-hidden="true"></span>' +
+          '</button>' +
         '</div>' +
       '</div>' +
       '<div class="claim-tags">' + tags.map(function (tag) { return '<span class="claim-tag">' + escapeHtml(tag) + '</span>'; }).join('') + '</div>' +
       '<p class="case-summary">' + escapeHtml(item.plain_language_summary || '') + '</p>' +
       '<div class="case-updated">Last updated ' + escapeHtml(formatDate(item.last_updated) || item.last_updated || '') + '</div>' +
-      '<div class="case-expanded-panel">' +
+      '<div class="case-expanded-panel" id="' + escapeAttr(panelId) + '" role="region" aria-labelledby="' + escapeAttr(titleId) + '" aria-hidden="true">' +
         '<div class="expanded-inner">' +
           '<div class="expanded-section">' +
             '<span class="eyebrow">Activity Dates</span>' +
@@ -661,11 +713,21 @@ document.addEventListener('DOMContentLoaded', async function () {
   function toggleCase(id) {
     state.expandedId = state.expandedId === id ? null : id;
     els.caseList.querySelectorAll('.case-card').forEach(function (card) {
-      var panel = card.querySelector('.case-expanded-panel');
       var open = card.getAttribute('data-case-id') === state.expandedId;
-      card.classList.toggle('is-expanded', open);
-      panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+      setCaseOpen(card, open);
     });
+  }
+
+  function setCaseOpen(card, open) {
+    var panel = card.querySelector('.case-expanded-panel');
+    var toggle = card.querySelector('.case-toggle');
+    if (!panel || !toggle) return;
+    var caseName = toggle.getAttribute('data-case-name') || 'case';
+    card.classList.toggle('is-expanded', open);
+    panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+    panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', (open ? 'Hide' : 'Show') + ' case activity for ' + caseName);
   }
 
   function mostRecentDate(values) {
@@ -727,6 +789,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   function escapeAttr(value) {
     return escapeHtml(value);
+  }
+
+  function safeId(value) {
+    return String(value == null ? '' : value)
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'case';
   }
 
 });
