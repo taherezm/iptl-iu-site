@@ -456,6 +456,13 @@ footer {
 .foot-row a { color: var(--ink-dim); }
 .foot-row a:hover { color: var(--ink); }
 .foot-row .links { display: flex; gap: 28px; }
+.foot-row .copyright {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-faint);
+}
 .foot-row .disclosure {
   font-family: var(--sans);
   font-size: 12px;
