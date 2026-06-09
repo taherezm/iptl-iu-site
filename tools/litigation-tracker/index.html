@@ -39,6 +39,71 @@
   .tracker-hero { padding-top: 112px; padding-bottom: 40px; }
   .tracker-hero .eyebrow { display: block; margin-bottom: 24px; }
   .tracker-hero .lead { margin: 24px 0 0; }
+  .tracker-read-more {
+    margin-top: 22px;
+    max-width: 780px;
+  }
+  .tracker-read-more summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--ink-dim);
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    list-style: none;
+    text-transform: uppercase;
+    transition: color 200ms ease;
+  }
+  .tracker-read-more summary::-webkit-details-marker { display: none; }
+  .tracker-read-more summary:hover,
+  .tracker-read-more summary:focus-visible {
+    color: var(--ink);
+  }
+  .tracker-read-more summary:focus-visible {
+    outline: 1px solid rgba(201, 168, 76, 0.65);
+    outline-offset: 4px;
+  }
+  .read-more-icon {
+    position: relative;
+    width: 9px;
+    height: 9px;
+    flex: 0 0 auto;
+  }
+  .read-more-icon::before,
+  .read-more-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 9px;
+    height: 1px;
+    background: currentColor;
+  }
+  .read-more-icon::after {
+    transform: rotate(90deg);
+    transition: opacity 160ms ease;
+  }
+  .tracker-read-more[open] .read-more-icon::after { opacity: 0; }
+  .tracker-more-copy {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+  }
+  .tracker-more-copy p {
+    margin: 0;
+    max-width: 720px;
+    color: var(--ink-dim);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .tracker-more-copy p + p { margin-top: 14px; }
+  .tracker-more-copy a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .tracker-more-copy a:hover { border-bottom-color: var(--ink-dim); }
   .stat-strip {
     display: flex;
     flex-wrap: wrap;
@@ -72,18 +137,6 @@
     justify-content: center;
     flex: 0 0 auto;
     transition: color 200ms ease, transform 200ms ease;
-  }
-  .source-callout .about-link {
-    width: auto;
-    height: auto;
-    color: var(--ink-dim);
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-  .source-callout .about-link:hover {
-    color: var(--ink);
   }
   .source-callout a:hover {
     color: var(--ink);
@@ -457,6 +510,16 @@
     <div class="wrap">
       <h1>Litigation Tracker</h1>
       <p class="lead">Currently tracking federal cases where artificial intelligence, software, platforms, and intellectual property are colliding: training data lawsuits, generated-output disputes, software patent fights, trade-secret claims, right-of-publicity issues, and other emerging digital rights litigation. Updated automatically every five days.</p>
+      <details class="tracker-read-more">
+        <summary><span>Read more</span><span class="read-more-icon" aria-hidden="true"></span></summary>
+        <div class="tracker-more-copy">
+          <p>Most legal coverage catches the complaint or the big ruling. This tracker is for the quieter middle: docket entries, motion practice, scheduling orders, discovery fights, dismissals, appeals, and the moments where a broad technology story turns into an actual litigation record.</p>
+          <p>It is a research tool, not a scoreboard. A party filing something is not the same thing as a court agreeing with it, so summaries stay narrow and procedural unless the docket itself reports a ruling.</p>
+          <p>Cases belong here when the IP or technical system is central, not incidental: copyright, patent, trade secret, DMCA, trademark, right-of-publicity, biometric/privacy, open-source, scraping, licensing, platform, and related disputes.</p>
+          <p>The pipeline searches CourtListener, screens for AI/IP relevance, pulls docket activity for active matters, summarizes new entries, and publishes JSON that this page reads directly. Source links point back to CourtListener because the source of record is still the docket.</p>
+          <p>This is not legal advice, a PACER replacement, or a claim that every relevant case has been captured. If something is missing or a summary looks off, write to <a href="mailto:undergradtechlaw@outlook.com">undergradtechlaw@outlook.com</a>.</p>
+        </div>
+      </details>
       <div class="stat-strip">
         <span><strong id="stat-active">&mdash;</strong> Active Cases</span>
         <span><strong id="stat-courts">&mdash;</strong> Courts</span>
@@ -464,7 +527,6 @@
         <span><strong id="stat-rulings">&mdash;</strong> Significant Rulings</span>
       </div>
       <div class="source-callout">
-        <a class="about-link" href="about.html">About the tracker</a>
         <span><strong>See how it was built</strong></span>
         <a href="https://github.com/taherezm/litigationtracker" target="_blank" rel="noopener noreferrer" aria-label="View the litigation tracker pipeline on GitHub" title="GitHub">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
