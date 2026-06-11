@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Litigation Tracker &middot; Undergraduate Technology Law at IU</title>
-<meta name="description" content="An AI and IP litigation tracker following federal cases about model training, generated output, software patents, trade secrets, platform disputes, and docket activity.">
+<meta name="description" content="An AI and IP litigation tracker following federal cases about model training, generated output, software patents, trade secrets, platform disputes, and docket activity on a five-day automated cadence.">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/assets/site-mark.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png">
@@ -15,7 +15,7 @@
 <link rel="canonical" href="https://www.undergradtechlaw.org/tools/litigation-tracker/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Litigation Tracker · Undergraduate Technology Law at IU">
-<meta property="og:description" content="An AI and IP litigation tracker following federal cases about model training, generated output, software patents, trade secrets, platform disputes, and docket activity.">
+<meta property="og:description" content="An AI and IP litigation tracker following federal cases about model training, generated output, software patents, trade secrets, platform disputes, and docket activity on a five-day automated cadence.">
 <meta property="og:url" content="https://www.undergradtechlaw.org/tools/litigation-tracker/">
 <meta property="og:image" content="https://www.undergradtechlaw.org/assets/site-image.png">
 <meta property="og:image:width" content="1200">
@@ -23,7 +23,7 @@
 <meta property="og:image:alt" content="Red slash mark for Undergraduate Technology Law at IU">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Litigation Tracker · Undergraduate Technology Law at IU">
-<meta name="twitter:description" content="An AI and IP litigation tracker following federal cases about model training, generated output, software patents, trade secrets, platform disputes, and docket activity.">
+<meta name="twitter:description" content="An AI and IP litigation tracker following federal cases about model training, generated output, software patents, trade secrets, platform disputes, and docket activity on a five-day automated cadence.">
 <meta name="twitter:image" content="https://www.undergradtechlaw.org/assets/site-image.png">
 <link rel="stylesheet" href="../../site-chrome.css">
 <link rel="stylesheet" href="../../theme-toggle.css">
@@ -515,7 +515,7 @@
         <div class="tracker-more-copy">
           <p>Most legal coverage catches the complaint or the big ruling. This tracker is for the quieter middle: docket entries, motion practice, scheduling orders, discovery fights, dismissals, appeals, and the moments where a broad technology story turns into an actual litigation record.</p>
           <p>Cases belong here when the IP or technical system is central, not incidental: copyright, patent, trade secret, DMCA, trademark, right-of-publicity, biometric/privacy, open-source, scraping, licensing, platform, and related disputes.</p>
-          <p>The pipeline searches CourtListener, screens for AI/IP relevance, pulls docket activity for active matters, summarizes new entries, and publishes JSON that this page reads directly. Source links point back to CourtListener because the source of record is still the docket.</p>
+          <p>The pipeline checks tracked dockets first, then searches CourtListener for newly filed AI/IP matters, summarizes new docket activity, and publishes JSON that this page reads directly. It runs on a five-day cadence, and interrupted docket windows resume from per-case checkpoints on the next run. Source links point back to CourtListener because the source of record is still the docket.</p>
           <p>This is not legal advice, a PACER replacement, or a claim that every relevant case has been captured. If something is missing or a summary looks off, write to <a href="mailto:undergradtechlaw@outlook.com">undergradtechlaw@outlook.com</a>.</p>
         </div>
       </details>
