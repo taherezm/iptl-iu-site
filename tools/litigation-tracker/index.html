@@ -279,7 +279,7 @@
     letter-spacing: 0.12em;
   }
   .status-badge.resolved,
-  .status-badge.needs-review {
+  .status-badge.stayed {
     border-color: var(--resolved);
     color: var(--resolved);
   }
@@ -520,7 +520,7 @@
         </div>
       </details>
       <div class="stat-strip">
-        <span><strong id="stat-active">&mdash;</strong> Active Cases</span>
+        <span><strong id="stat-active">&mdash;</strong> Open Cases</span>
         <span><strong id="stat-courts">&mdash;</strong> Courts</span>
         <span>Updated <strong id="stat-updated">&mdash;</strong></span>
         <span><strong id="stat-rulings">&mdash;</strong> Significant Rulings</span>
@@ -603,7 +603,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   wireControls();
 
   function renderStats() {
-    els.active.textContent = state.cases.filter(function (c) { return c.status === 'active'; }).length;
+    els.active.textContent = state.cases.filter(function (c) { return c.status !== 'resolved'; }).length;
     els.courts.textContent = new Set(state.cases.map(function (c) { return c.court; }).filter(Boolean)).size;
     els.updated.textContent = formatDate(mostRecentDate(state.cases.map(function (c) { return c.last_updated; }))) || '\u2014';
     els.rulings.textContent = state.cases.reduce(function (sum, c) {
@@ -645,6 +645,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     var titleId = 'case-title-' + caseId;
     var panelId = 'case-panel-' + caseId;
     var caseName = item.name || 'case';
+    var postureTag = renderPostureTag(status, item.procedural_posture);
     return '<article class="case-card" data-case-id="' + escapeAttr(item.id) + '">' +
       '<div class="case-top">' +
         '<div>' +
@@ -656,7 +657,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         '</div>' +
         '<div class="case-status-row">' +
           '<span class="status-badge ' + statusClass(status) + '">' + escapeHtml(statusLabel(status)) + '</span>' +
-          '<span class="posture-tag">' + escapeHtml(item.procedural_posture || '') + '</span>' +
+          postureTag +
           '<button type="button" class="case-toggle" aria-expanded="false" aria-controls="' + escapeAttr(panelId) + '" data-case-name="' + escapeAttr(caseName) + '" aria-label="Show case activity for ' + escapeAttr(caseName) + '">' +
             '<span>Details</span><span class="case-toggle-icon" aria-hidden="true"></span>' +
           '</button>' +
@@ -834,14 +835,32 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   function statusLabel(status) {
-    if (status === 'needs_review') return 'Needs Review';
-    return status ? status.charAt(0).toUpperCase() + status.slice(1) : 'Active';
+    var labels = {
+      active: 'Active',
+      stayed: 'Stayed',
+      resolved: 'Resolved'
+    };
+    if (!status) return labels.active;
+    return labels[status] || status.replace(/_/g, ' ').replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
   }
 
   function statusClass(status) {
     if (status === 'resolved') return 'resolved';
-    if (status === 'needs_review') return 'needs-review';
+    if (status === 'stayed') return 'stayed';
     return 'active';
+  }
+
+  function renderPostureTag(status, posture) {
+    var postureText = String(posture || '').trim();
+    if (!postureText) return '';
+    if (normalizedLabel(postureText) === normalizedLabel(statusLabel(status))) return '';
+    return '<span class="posture-tag">' + escapeHtml(postureText) + '</span>';
+  }
+
+  function normalizedLabel(value) {
+    return String(value || '').replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
   }
 
   function significanceLabel(significance) {
