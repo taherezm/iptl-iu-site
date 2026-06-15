@@ -93,7 +93,7 @@
         '</span>' +
       '</button>';
 
-    // Prefer to sit inside the nav, after nav-links, so it feels native.
+    // Keep the toggle in the header row with the other top navigation.
     var nav = document.querySelector('.nav .nav-inner');
     if (nav) {
       nav.appendChild(wrap);

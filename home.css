@@ -177,10 +177,10 @@
   position: relative;
 }
 .focus .idx {
-  font-family: var(--mono);
-  font-size: 11px;
+  font-family: var(--serif);
+  font-size: 14px;
   color: var(--ink-faint);
-  letter-spacing: 0.2em;
+  letter-spacing: 0;
   margin-bottom: 20px;
 }
 .focus h3 {
@@ -232,10 +232,10 @@
   pointer-events: none;
 }
 .person .role {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-faint);
   margin-bottom: 24px;
 }
@@ -285,11 +285,11 @@
 }
 
 .roster-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+  font-family: var(--serif);
+  font-size: 16px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-dim);
   margin: 24px 0 16px;
   padding-top: 24px;
   border-top: 1px solid var(--rule);

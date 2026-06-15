@@ -24,10 +24,10 @@
   gap: 24px;
   align-items: center;
   margin-top: 36px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-faint);
 }
 .blog-hero .meta-row a:hover { color: var(--ink); }
@@ -39,10 +39,10 @@
 
 /* Breadcrumb (used on post + category pages) */
 .crumb {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-faint);
   margin-bottom: 36px;
 }
@@ -66,15 +66,15 @@
   flex-wrap: wrap;
   align-items: center;
   padding: 14px 0;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .filter-label {
   color: var(--ink-faint);
   margin-right: 20px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0;
 }
 .filter-chip {
   background: transparent;
@@ -102,7 +102,7 @@
 .filter-chip .count {
   opacity: 0.55;
   margin-left: 8px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
 }
 .filter-chip[aria-pressed="true"] .count { opacity: 0.7; }
 
@@ -124,11 +124,11 @@
 }
 .post-row:hover { background: rgba(255,255,255,0.018); }
 .post-row .date {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
   color: var(--ink-faint);
-  text-transform: uppercase;
+  text-transform: none;
 }
 .post-row .title-cell {
   font-family: var(--serif);
@@ -140,21 +140,21 @@
 .post-row .title-cell a:hover { color: var(--ink); border-bottom: 1px solid var(--rule-strong); }
 .post-row .by {
   display: block;
-  font-family: var(--sans);
-  font-size: 12px;
+  font-family: var(--serif);
+  font-size: 13px;
   color: var(--ink-faint);
   margin-top: 6px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 .post-row .cat-cell { justify-self: end; }
 
 /* ——— Category tags ——— */
 .cat-tag {
   display: inline-block;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
   padding: 5px 10px;
   border: 1px solid var(--rule-strong);
   color: var(--ink-dim);
@@ -181,8 +181,8 @@ a.cat-tag:hover {
 /* Larger tag for post-page header */
 .cat-tag.lg {
   padding: 7px 14px;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-size: 14px;
+  letter-spacing: 0;
 }
 
 @media (max-width: 860px) {
@@ -201,9 +201,9 @@ a.cat-tag:hover {
   padding: 80px 0 40px;
   text-align: left;
   color: var(--ink-faint);
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.12em;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
 }
 
 /* ——— Post body ——— */
@@ -222,10 +222,10 @@ a.cat-tag:hover {
   margin-bottom: 28px;
 }
 .post-header .date-line {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-faint);
 }
 .post-header h1 {
@@ -238,10 +238,10 @@ a.cat-tag:hover {
 }
 .post-header .byline {
   margin-top: 28px;
-  font-family: var(--sans);
+  font-family: var(--serif);
   font-size: 14px;
   color: var(--ink-dim);
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   border-top: 1px solid var(--rule);
   padding-top: 22px;
 }
@@ -259,8 +259,7 @@ a.cat-tag:hover {
 }
 .post-body p { margin: 0 0 1.2em; }
 .post-body p:first-of-type::first-line {
-  font-variant-caps: small-caps;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 .post-body h2 {
   font-family: var(--serif);
@@ -271,10 +270,10 @@ a.cat-tag:hover {
   color: var(--ink);
 }
 .post-body h3 {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 18px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-faint);
   margin: 2em 0 0.6em;
   font-weight: 500;
@@ -290,7 +289,7 @@ a.cat-tag:hover {
 .post-body em { font-style: italic; }
 .post-body strong { font-weight: 500; color: var(--ink); }
 .post-body code {
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: 0.85em;
   background: var(--glass-bg);
   border: 1px solid var(--rule);
@@ -312,7 +311,7 @@ a.cat-tag:hover {
 /* Footnote reference (superscript) */
 .post-body sup, .post-body .fn-ref-wrap { line-height: 0; }
 a.fn-ref {
-  font-family: var(--mono);
+  font-family: var(--serif);
   font-size: 10px;
   letter-spacing: 0;
   vertical-align: super;
@@ -341,10 +340,10 @@ li.fn-item:target {
   border-top: 1px solid var(--rule-strong);
 }
 .footnotes h2 {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 18px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-faint);
   margin: 0 0 28px;
   font-weight: 500;
@@ -354,7 +353,7 @@ li.fn-item:target {
   counter-reset: fn;
   margin: 0;
   padding: 0;
-  font-family: var(--sans);
+  font-family: var(--serif);
   font-size: 14px;
   line-height: 1.6;
   color: var(--ink-dim);
@@ -371,9 +370,9 @@ li.fn-item:target {
   position: absolute;
   left: 0;
   top: 12px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0;
   color: var(--ink-faint);
   width: 32px;
 }
@@ -383,20 +382,20 @@ li.fn-item:target {
 }
 .footnotes li a:hover { border-bottom-color: var(--ink); }
 .footnotes .src {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-faint);
   margin-right: 10px;
 }
 .footnotes .back {
-  font-family: var(--mono);
-  font-size: 10px;
+  font-family: var(--serif);
+  font-size: 13px;
   color: var(--ink-faint);
   margin-left: 8px;
   border-bottom: 0;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 .footnotes .back:hover { color: var(--ink); border-bottom: 0; }
 
@@ -421,10 +420,10 @@ li.fn-item:target {
   color: var(--ink);
 }
 .more-in .head-row .all-link {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-dim);
 }
 .more-in .head-row .all-link:hover { color: var(--ink); }
@@ -448,11 +447,11 @@ li.fn-item:target {
 }
 .more-card:hover { background: var(--glass-bg-hover); }
 .more-card .date {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
   color: var(--ink-faint);
-  text-transform: uppercase;
+  text-transform: none;
 }
 .more-card .ti {
   font-family: var(--serif);
@@ -464,7 +463,7 @@ li.fn-item:target {
 .more-card .by {
   font-size: 12px;
   color: var(--ink-faint);
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 @media (max-width: 860px) {
   .more-grid { grid-template-columns: 1fr; }
@@ -481,10 +480,10 @@ li.fn-item:target {
   justify-content: space-between;
   align-items: baseline;
   margin: 0 0 24px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-faint);
 }
 .list-section .count-row .rss {

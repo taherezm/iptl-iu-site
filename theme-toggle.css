@@ -1,9 +1,8 @@
 /* ============================================================
-   Theme toggle — sits inline inside the nav (after nav-links).
+   Theme toggle — sits in the top navigation row.
    Drives all chrome from CSS vars; dark (0) or light (1).
    ============================================================ */
 
-/* Inline toggle, part of the nav row */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -83,19 +82,6 @@
 .theme-toggle[data-mode="light"] button:focus-visible .tt-moon {
   opacity: 1;
   color: var(--ink, #e9e7e1);
-}
-
-/* On narrow viewports, keep the toggle in the first nav row. */
-@media (max-width: 760px) {
-  .theme-toggle {
-    position: static;
-    order: 2;
-    margin-left: auto;
-    z-index: auto;
-  }
-  .theme-toggle button {
-    background: transparent;
-  }
 }
 
 /* ——— Drive existing chrome from CSS vars set by theme-toggle.js ——— */

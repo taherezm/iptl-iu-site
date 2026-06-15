@@ -1,1 +1,1 @@
-/* Shared site script intentionally left small. */
+/* Navigation is rendered directly in the page headers. */
