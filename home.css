@@ -80,6 +80,13 @@
   max-width: 880px;
   margin: 0 auto;
 }
+.cta-row.single {
+  max-width: 560px;
+}
+.cta-row.single .cta {
+  flex: none;
+  width: 100%;
+}
 .cta {
   flex: 1;
   background: var(--glass-bg);

@@ -1,10 +1,10 @@
 /* ============================================================
-   Blog chrome — Undergraduate Technology Law at IU
+   Research chrome — Undergraduate Technology Law at IU
    Index, category, and post page styling.
    Inherits tokens from site-chrome.css.
    ============================================================ */
 
-/* ——— Blog hero (shared by index / category / post) ——— */
+/* ——— Research hero (shared by index / category / post) ——— */
 .blog-hero {
   padding-top: 140px;
   padding-bottom: 80px;
