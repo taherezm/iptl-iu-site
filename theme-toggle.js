@@ -36,13 +36,13 @@
   function apply(l) {
     var r = document.documentElement;
 
-    // Background — linear scale from dark to a warm off-white
+    // Background: linear scale from dark to a warm off-white
     var bg     = mix('#0b0d10', '#f6f3ec', l);
     var bgTop  = mix('#12161b', '#ffffff', l);
     var bgBot  = mix('#08090b', '#ece8df', l);
     var bgElev = mix('#101317', '#ffffff', l);
 
-    // Ink — smoothstep through the middle so contrast stays high
+    // Ink: smoothstep through the middle so contrast stays high
     // outside a narrow crossover band.
     var inkT = smoothstep(0.42, 0.58, l);
     var ink      = mix('#e9e7e1', '#15140f', inkT);

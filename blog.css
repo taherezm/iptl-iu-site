@@ -1,10 +1,10 @@
 /* ============================================================
-   Research chrome — Undergraduate Technology Law at IU
+   Research chrome: Undergraduate Technology Law at IU
    Index, category, and post page styling.
    Inherits tokens from site-chrome.css.
    ============================================================ */
 
-/* ——— Research hero (shared by index / category / post) ——— */
+/* Research hero (shared by index / category / post) */
 .blog-hero {
   padding-top: 140px;
   padding-bottom: 80px;
@@ -50,7 +50,7 @@
 .crumb a:hover { color: var(--ink); }
 .crumb .sep { margin: 0 12px; opacity: 0.6; }
 
-/* ——— Category filter bar ——— */
+/* Category filter bar */
 .filter-bar {
   position: sticky;
   top: 80px;
@@ -106,7 +106,7 @@
 }
 .filter-chip[aria-pressed="true"] .count { opacity: 0.7; }
 
-/* ——— Post list (collapsed rows) ——— */
+/* Post list (collapsed rows) */
 .post-list {
   list-style: none;
   margin: 0;
@@ -148,7 +148,7 @@
 }
 .post-row .cat-cell { justify-self: end; }
 
-/* ——— Category tags ——— */
+/* Category tags */
 .cat-tag {
   display: inline-block;
   font-family: var(--serif);
@@ -206,7 +206,7 @@ a.cat-tag:hover {
   letter-spacing: 0;
 }
 
-/* ——— Post body ——— */
+/* Post body */
 .post-article {
   padding-top: 64px;
   padding-bottom: 96px;
@@ -399,7 +399,7 @@ li.fn-item:target {
 }
 .footnotes .back:hover { color: var(--ink); border-bottom: 0; }
 
-/* ——— More-in-category row (post page) ——— */
+/* More-in-category row (post page) */
 .more-in {
   border-top: 1px solid var(--rule);
   padding: 72px 0 96px;
@@ -469,7 +469,7 @@ li.fn-item:target {
   .more-grid { grid-template-columns: 1fr; }
 }
 
-/* ——— Section variant: blog list body ——— */
+/* Section variant: blog list body */
 .list-section {
   padding-top: 48px;
   padding-bottom: 120px;

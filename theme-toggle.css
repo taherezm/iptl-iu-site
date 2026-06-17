@@ -1,5 +1,5 @@
 /* ============================================================
-   Theme toggle — sits in the top navigation row.
+   Theme toggle: sits in the top navigation row.
    Drives all chrome from CSS vars; dark (0) or light (1).
    ============================================================ */
 
@@ -84,7 +84,7 @@
   color: var(--ink, #e9e7e1);
 }
 
-/* ——— Drive existing chrome from CSS vars set by theme-toggle.js ——— */
+/* Drive existing chrome from CSS vars set by theme-toggle.js */
 .bg {
   background:
     linear-gradient(180deg, rgba(255,255,255,0.025), transparent 260px),

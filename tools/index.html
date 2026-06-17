@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tools &middot; Undergraduate Technology Law at IU</title>
+<meta name="description" content="Tools built by Undergraduate Technology Law at IU for tracking dockets, platform terms, agency decisions, and related technology law research.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/site-mark.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="icon" href="/assets/favicon-96.png" sizes="96x96" type="image/png">
+<link rel="icon" href="/assets/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0B0D10">
+<link rel="canonical" href="https://www.undergradtechlaw.org/tools/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Undergraduate Technology Law at IU">
+<meta property="og:title" content="Tools &middot; Undergraduate Technology Law at IU">
+<meta property="og:description" content="Tools built by Undergraduate Technology Law at IU for tracking dockets, platform terms, agency decisions, and related technology law research.">
+<meta property="og:url" content="https://www.undergradtechlaw.org/tools/">
+<meta property="og:image" content="https://www.undergradtechlaw.org/assets/site-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Red slash mark for Undergraduate Technology Law at IU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tools &middot; Undergraduate Technology Law at IU">
+<meta name="twitter:description" content="Tools built by Undergraduate Technology Law at IU for tracking dockets, platform terms, agency decisions, and related technology law research.">
+<meta name="twitter:image" content="https://www.undergradtechlaw.org/assets/site-image.png">
+<meta name="twitter:image:alt" content="Red slash mark for Undergraduate Technology Law at IU">
+<link rel="stylesheet" href="../site-chrome.css">
+<link rel="stylesheet" href="../theme-toggle.css">
+<script src="../theme-toggle.js"></script>
+<style>
+  .tools-hero {
+    padding-top: 140px;
+    padding-bottom: 68px;
+  }
+
+  .tools-hero h1 {
+    max-width: 12ch;
+  }
+
+  .tools-intro {
+    margin-top: 34px;
+    max-width: 760px;
+    color: var(--ink-dim);
+    font-size: 18px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  .tools-intro p {
+    margin: 0;
+  }
+
+  .tools-list-section {
+    padding-top: 0;
+    padding-bottom: 140px;
+    border-top: 0;
+  }
+
+  .tool-list {
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .tool-entry {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .tool-entry.is-live {
+    color: inherit;
+    transition: background 220ms ease, border-color 220ms ease;
+  }
+
+  .tool-entry.is-live:hover,
+  .tool-entry.is-live:focus-visible {
+    background: rgba(255,255,255,0.025);
+    border-bottom-color: var(--rule-strong);
+  }
+
+  .tool-entry.is-live:focus-visible {
+    outline: 1px solid rgba(233, 231, 225, 0.45);
+    outline-offset: 8px;
+  }
+
+  .tool-entry.is-forthcoming {
+    color: var(--ink-dim);
+  }
+
+  .tool-kicker {
+    margin-bottom: 12px;
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-faint);
+  }
+
+  .tool-title-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .tool-title-row h2 {
+    font-size: clamp(25px, 2.8vw, 36px);
+    line-height: 1.08;
+    color: var(--ink);
+  }
+
+  .tool-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  .tool-status::before {
+    content: "\2014";
+    color: var(--ink-faint);
+  }
+
+  .tool-status.live {
+    color: var(--ink);
+  }
+
+  .tool-status.live::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: #B22222;
+    display: inline-block;
+  }
+
+  .tool-desc {
+    max-width: 840px;
+    margin: 0;
+    color: var(--ink-dim);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .tool-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 0;
+    margin-top: 22px;
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-faint);
+  }
+
+  .tool-meta span + span::before {
+    content: "\00b7";
+    margin: 0 10px;
+    color: var(--ink-faint);
+  }
+
+  .tool-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--ink);
+  }
+
+  .tool-action::after {
+    content: "\2192";
+    color: var(--ink-faint);
+    transition: color 220ms ease, transform 220ms ease;
+  }
+
+  .tool-entry.is-live:hover .tool-action::after,
+  .tool-entry.is-live:focus-visible .tool-action::after {
+    color: var(--ink);
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tool-entry.is-live,
+    .tool-action::after {
+      transition: none;
+    }
+
+    .tool-entry.is-live:hover .tool-action::after,
+    .tool-entry.is-live:focus-visible .tool-action::after {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .tools-hero {
+      padding-top: 96px;
+      padding-bottom: 48px;
+    }
+
+    .tools-list-section {
+      padding-bottom: 88px;
+    }
+
+    .tool-entry {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 30px 0;
+    }
+
+    .tool-meta {
+      display: grid;
+      gap: 6px;
+    }
+
+    .tool-meta span + span::before {
+      content: "";
+      margin: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+</div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand" aria-label="undergradtechlaw@iu">
+      <span class="slash" aria-hidden="true"></span>
+      <span class="name" data-hover-label="UTL@iu">undergradtechlaw@iu</span>
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html#focus">Focus</a>
+      <a href="../index.html#people">People</a>
+      <a href="../index.html#contact">Contact</a>
+      <a href="../apply.html">Apply</a>
+      <a href="../blog.html">Research</a>
+      <a href="./" aria-current="page" style="color: var(--ink);">Tools</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="tools-hero" data-screen-label="Tools Hero">
+    <div class="wrap">
+      <h1>Tools &amp; Legal Technology</h1>
+      <div class="tools-intro">
+        <p>Data-backed legal research tools for monitoring activity, normalizing source material, and publishing structured interfaces for AI, software, platform, intellectual property, and digital-rights disputes and interpretation. Open-source and available to the public for review.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tools-list-section" data-screen-label="Tools Index">
+    <div class="wrap">
+      <div class="tool-list" aria-label="Tools">
+        <a class="tool-entry is-live" href="litigation-tracker/index.html">
+          <div>
+            <div class="tool-title-row">
+              <h2>Live Litigation Tracker</h2>
+            </div>
+            <p class="tool-desc">Follows federal cases where AI, software, platforms, and IP collide: training-data suits, generated-output disputes, software-patent fights, trade-secret and right-of-publicity claims, and related digital-rights litigation. A pipeline checks tracked dockets, searches CourtListener for newly filed AI/IP matters, summarizes new activity, and publishes the JSON the tracker page reads on a five-day cadence.</p>
+            <span class="tool-action">View tracker</span>
+          </div>
+        </a>
+
+      </div>
+
+      <template id="forthcoming-tool-entry-template">
+        <article class="tool-entry is-forthcoming">
+          <div>
+            <div class="tool-kicker">Tool category</div>
+            <div class="tool-title-row">
+              <h2>Tool name</h2>
+              <span class="tool-status">Planned</span>
+            </div>
+            <p class="tool-desc">Short description of what the tool will track, compare, search, or structure.</p>
+            <div class="tool-meta" aria-label="Tool metadata">
+              <span>Status: Planned</span>
+            </div>
+          </div>
+        </article>
+      </template>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span class="copyright">&copy; 2026 Undergraduate Technology Law at Indiana University</span>
+    <span class="disclosure">Not affiliated with Indiana University Maurer School of Law</span>
+  </div>
+</footer>
+
+<script src="../site.js"></script>
+</body>
+</html>
