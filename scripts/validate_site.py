@@ -109,7 +109,9 @@ def local_target(page: Path, value: str) -> Path | None:
 def target_exists(path: Path) -> bool:
     if path.exists():
         return True
-    return path.is_dir() and (path / "index.html").exists()
+    if path.is_dir() and (path / "index.html").exists():
+        return True
+    return path.suffix == "" and path.with_suffix(".html").exists()
 
 
 def validate_html(page: Path) -> list[str]:
