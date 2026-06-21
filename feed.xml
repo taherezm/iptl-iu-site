@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Undergraduate Technology Law at IU: Research</title>
-    <link>https://www.undergradtechlaw.org/blog</link>
+    <link>https://www.undergradtechlaw.org/research</link>
     <atom:link href="https://www.undergradtechlaw.org/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Research from Undergraduate Technology Law at IU, published throughout the Fall and Spring semesters.</description>
     <language>en-us</language>

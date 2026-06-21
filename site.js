@@ -10,6 +10,12 @@
     cleanPath = path.slice(0, -".html".length);
   }
 
+  if (cleanPath === "/blog" || cleanPath === "/blog/") {
+    cleanPath = "/research";
+  } else if (cleanPath.startsWith("/blog/")) {
+    cleanPath = "/research/" + cleanPath.slice("/blog/".length);
+  }
+
   if (cleanPath !== path) {
     window.location.replace(cleanPath + window.location.search + window.location.hash);
   }
