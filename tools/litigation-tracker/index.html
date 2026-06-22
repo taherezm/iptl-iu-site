@@ -341,19 +341,6 @@
   .case-card.is-expanded .case-toggle-icon::after {
     opacity: 0;
   }
-  .claim-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 14px;
-  }
-  .claim-tag {
-    background: var(--glass-bg);
-    color: var(--ink-faint);
-    font-size: 13px;
-    line-height: 1.2;
-    padding: 4px 8px;
-  }
   .case-summary {
     margin: 14px 0 0;
     color: var(--ink-dim);
@@ -637,7 +624,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   function renderCaseCard(item) {
     var status = item.status || 'active';
-    var tags = (item.claims || []).concat(item.tags || []).slice(0, 6);
     var activityDays = buildActivityDays(item.docket_entries || []);
     var rulings = item.key_rulings || [];
     var caseId = safeId(item.id || item.name || 'case');
@@ -662,7 +648,6 @@ document.addEventListener('DOMContentLoaded', async function () {
           '</button>' +
         '</div>' +
       '</div>' +
-      '<div class="claim-tags">' + tags.map(function (tag) { return '<span class="claim-tag">' + escapeHtml(tag) + '</span>'; }).join('') + '</div>' +
       '<p class="case-summary">' + escapeHtml(item.plain_language_summary || '') + '</p>' +
       '<div class="case-updated">Last updated ' + escapeHtml(formatDate(item.last_updated) || item.last_updated || '') + '</div>' +
       '<div class="case-expanded-panel" id="' + escapeAttr(panelId) + '" role="region" aria-labelledby="' + escapeAttr(titleId) + '" aria-hidden="true">' +
@@ -778,7 +763,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         var text = [
           item.name,
           item.plain_language_summary,
-          (item.tags || []).join(' '),
+          (item.claims || []).join(' '),
           parties.plaintiff,
           parties.defendant
         ].join(' ').toLowerCase();
