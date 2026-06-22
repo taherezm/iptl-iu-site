@@ -176,16 +176,34 @@
   .activity-badge.significant { color: var(--gold); }
   .activity-badge.resolved { color: var(--resolved); }
 
-  .search-input {
+  .search-shell {
+    position: relative;
     width: 100%;
-    padding: 12px 16px;
+    margin: 0 0 30px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    color: var(--ink);
-    font-size: 14px;
-    outline: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    overflow: hidden;
+    transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
   }
-  .search-input:focus { border-color: var(--glass-border-hover); }
+  .search-shell:focus-within {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+  .search-input {
+    width: 100%;
+    min-height: 54px;
+    padding: 12px 16px;
+    background: transparent;
+    border: 0;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.4;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
   .search-input::placeholder { color: var(--ink-faint); }
 
   .case-card {
@@ -463,6 +481,15 @@
     }
     .tracker-section { padding-top: 28px; }
     .case-index { padding-bottom: 80px; }
+    .search-shell {
+      width: 100%;
+      margin-bottom: 26px;
+    }
+    .search-input {
+      min-height: 50px;
+      padding: 11px 14px;
+      font-size: 15px;
+    }
     .case-top {
       grid-template-columns: 1fr;
       gap: 10px;
@@ -531,7 +558,9 @@
       <section class="case-index" aria-labelledby="case-index-title">
         <span class="eyebrow" id="case-index-title">Case Index</span>
         <label class="visually-hidden" for="case-search">Search cases</label>
-        <input class="search-input" id="case-search" type="search" placeholder="Search cases, parties, claims&hellip;" autocomplete="off">
+        <div class="search-shell">
+          <input class="search-input" id="case-search" type="search" placeholder="Search cases, parties, claims&hellip;" autocomplete="off">
+        </div>
         <div class="case-list" id="case-list"></div>
       </section>
     </div>
