@@ -4,8 +4,6 @@ https://www.undergradtechlaw.org/
 
 ## License
 
-Code in this repository is licensed under the MIT License. See `LICENSE`.
-
 Original written content, research materials, case summaries, and site copy are
 licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 International (CC BY-NC-SA 4.0), unless otherwise noted. See

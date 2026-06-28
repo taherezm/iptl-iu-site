@@ -14,8 +14,7 @@ https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 This content license does not apply to:
 
 - Software code, build scripts, validation scripts, GitHub Actions workflows,
-  HTML templates, CSS, JavaScript, or other functional code. Those materials
-  are licensed under the MIT License in `LICENSE`.
+  HTML templates, CSS, JavaScript, or other functional code.
 - Court records, docket text, party names, docket numbers, filing dates,
   procedural facts, CourtListener URLs, CourtListener metadata, PACER/RECAP
   materials, or other third-party source materials. Those materials remain
