@@ -255,7 +255,7 @@ a { color: inherit; text-decoration: none; }
   }
   .brand {
     gap: 8px;
-    font-size: clamp(26px, 8vw, 32px);
+    font-size: clamp(22px, 7vw, 32px);
     letter-spacing: 0;
   }
   .brand .slash {
@@ -269,29 +269,18 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 560px) {
   .brand .name {
-    width: 5.2ch;
-    color: transparent;
+    width: auto;
+    max-width: calc(100vw - 72px);
+    color: var(--ink);
     overflow: visible;
   }
-  .brand .name::before {
+  .brand .name::before,
+  .brand .name::after {
     display: none;
   }
-  .brand .name::after {
-    content: attr(data-hover-label);
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 1;
-    filter: none;
+  .brand:hover .name,
+  .brand:focus-visible .name {
     color: var(--ink);
-    text-shadow: none;
-    transform: none;
-  }
-  .brand:hover .name::after,
-  .brand:focus-visible .name::after {
-    filter: none;
-    opacity: 1;
-    transform: none;
   }
 }
 
