@@ -504,7 +504,6 @@ li.fn-item:target {
   padding-bottom: 112px;
 }
 .working-project {
-  border-top: 1px solid var(--rule-strong);
   border-bottom: 1px solid var(--rule);
   padding: 36px 0 42px;
   max-width: 880px;
