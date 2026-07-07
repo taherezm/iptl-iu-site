@@ -498,6 +498,43 @@ li.fn-item:target {
   fill: currentColor;
 }
 
+/* Working project preview on the research landing page */
+.working-projects {
+  padding-top: 56px;
+  padding-bottom: 112px;
+}
+.working-project {
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  padding: 36px 0 42px;
+  max-width: 880px;
+}
+.working-project .project-kicker {
+  font-family: var(--serif);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+.working-project h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 25ch;
+  margin: 0;
+}
+.working-project p {
+  margin: 26px 0 0;
+  max-width: 68ch;
+  color: var(--ink-dim);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+}
+
 /* Category description (on category page) */
 .cat-desc {
   font-family: var(--serif);
