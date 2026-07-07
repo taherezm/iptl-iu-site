@@ -500,12 +500,12 @@ li.fn-item:target {
 
 /* Working project preview on the research landing page */
 .working-projects {
-  padding-top: 56px;
+  padding-top: 28px;
   padding-bottom: 112px;
 }
 .working-project {
   border-bottom: 1px solid var(--rule);
-  padding: 36px 0 42px;
+  padding: 18px 0 42px;
   max-width: 880px;
 }
 .working-project .project-kicker {
