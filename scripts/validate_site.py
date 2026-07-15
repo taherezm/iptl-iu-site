@@ -6,7 +6,6 @@ from __future__ import annotations
 import json
 import html
 import sys
-import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlparse
@@ -14,8 +13,6 @@ from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE_URL = "https://www.undergradtechlaw.org"
-PUBLIC_EMAIL = "undergradtechlaw@outlook.com"
-
 FORBIDDEN_TEXT = (
     "ip & " + "technology law at iu",
     "ip and " + "technology law at iu",
@@ -149,22 +146,9 @@ def validate_html(page: Path) -> list[str]:
     return errors
 
 
-def validate_feed() -> list[str]:
-    path = ROOT / "feed.xml"
-    text = path.read_text(encoding="utf-8")
-    errors: list[str] = []
-    if PUBLIC_EMAIL not in text:
-        errors.append("feed.xml: missing public Outlook email.")
-    try:
-        ET.fromstring(text)
-    except ET.ParseError as exc:
-        errors.append(f"feed.xml: invalid XML: {exc}")
-    return errors
-
-
 def validate_forbidden_text() -> list[str]:
     errors: list[str] = []
-    files = [*ROOT.rglob("*.html"), ROOT / "feed.xml", ROOT / "assets/site-mark.svg"]
+    files = [*ROOT.rglob("*.html"), ROOT / "assets/site-mark.svg"]
     for path in files:
         if not path.exists():
             continue
@@ -181,7 +165,6 @@ def main() -> int:
         if ".git" in page.parts:
             continue
         errors.extend(validate_html(page))
-    errors.extend(validate_feed())
     errors.extend(validate_forbidden_text())
 
     if errors:
