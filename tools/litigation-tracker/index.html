@@ -532,14 +532,15 @@
         <div class="tracker-more-copy">
           <p>Most legal coverage catches the complaint or the big ruling. This tracker is for the quieter middle: docket entries, motion practice, scheduling orders, discovery fights, dismissals, appeals, and the moments where a broad technology story turns into an actual litigation record.</p>
           <p>Cases belong here when the IP or technical system is central, not incidental: copyright, patent, trade secret, DMCA, trademark, right-of-publicity, biometric/privacy, open-source, scraping, licensing, platform, and related disputes.</p>
-          <p>The pipeline is scheduled to run daily. It checks tracked dockets first, then searches CourtListener for newly filed AI/IP matters, summarizes and validates new docket activity, and publishes JSON that this page reads directly. New case cards appear only when a candidate meets the tracker's AI/IP criteria. When API or summary limits interrupt docket work, completed per-case checkpoints are preserved and unfinished docket windows resume on a later run. Source links point back to CourtListener because the source of record is still the docket.</p>
+          <p>The pipeline runs two daily phases. The first checks tracked dockets, summarizes and validates new docket activity, and publishes JSON that this page reads directly. A later CourtListener quota window searches for newly filed AI/IP matters and publishes accepted cases. New case cards appear only when a candidate meets the tracker's AI/IP criteria. When API or summary limits interrupt work, completed checkpoints and discovery position are preserved so unfinished windows resume on a later run. Source links point back to CourtListener because the source of record is still the docket.</p>
           <p>This is not legal advice, a PACER replacement, or a claim that every relevant case has been captured. If something is missing or a summary looks off, write to <a href="mailto:undergradtechlaw@outlook.com">undergradtechlaw@outlook.com</a>.</p>
         </div>
       </details>
       <div class="stat-strip">
         <span><strong id="stat-active">&mdash;</strong> Open Cases</span>
         <span><strong id="stat-courts">&mdash;</strong> Courts</span>
-        <span>Updated <strong id="stat-updated">&mdash;</strong></span>
+        <span>Latest Activity <strong id="stat-updated">&mdash;</strong></span>
+        <span>Dockets Checked Through <strong id="stat-checked">&mdash;</strong></span>
         <span><strong id="stat-rulings">&mdash;</strong> Significant Rulings</span>
       </div>
       <div class="source-callout">
@@ -586,6 +587,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     active: document.getElementById('stat-active'),
     courts: document.getElementById('stat-courts'),
     updated: document.getElementById('stat-updated'),
+    checked: document.getElementById('stat-checked'),
     rulings: document.getElementById('stat-rulings'),
     caseList: document.getElementById('case-list'),
     search: document.getElementById('case-search')
@@ -618,7 +620,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   function renderStats() {
     els.active.textContent = state.cases.filter(function (c) { return c.status !== 'resolved'; }).length;
     els.courts.textContent = new Set(state.cases.map(function (c) { return c.court; }).filter(Boolean)).size;
-    els.updated.textContent = formatDate(mostRecentDate(state.cases.map(function (c) { return c.last_updated; }))) || '\u2014';
+    els.updated.textContent = formatDate(latestActivityDate(state.cases)) || '\u2014';
+    els.checked.textContent = formatDate(docketCheckedThrough(state.cases)) || '\u2014';
     els.rulings.textContent = state.cases.reduce(function (sum, c) {
       return sum + ((c.key_rulings && c.key_rulings.length) || 0);
     }, 0);
@@ -822,6 +825,32 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   function mostRecentDate(values) {
     return values.filter(Boolean).sort().pop() || '';
+  }
+
+  function latestActivityDate(cases) {
+    var dates = [];
+    (cases || []).forEach(function (item) {
+      if (item.date_filed) dates.push(item.date_filed);
+      (item.docket_entries || []).forEach(function (entry) {
+        if (entry.date) dates.push(entry.date);
+      });
+      (item.key_rulings || []).forEach(function (ruling) {
+        if (ruling.date) dates.push(ruling.date);
+      });
+    });
+    return mostRecentDate(dates);
+  }
+
+  function docketCheckedThrough(cases) {
+    var pollableCases = (cases || []).filter(function (item) {
+      return item.status !== 'resolved' && item.courtlistener_docket_id;
+    });
+    if (!pollableCases.length) return '';
+    var checkpoints = pollableCases.map(function (item) {
+      return String(item.docket_last_checked || '');
+    });
+    if (checkpoints.some(function (value) { return !/^\d{4}-\d{2}-\d{2}$/.test(value); })) return '';
+    return checkpoints.sort()[0] || '';
   }
 
   function formatDate(value) {
