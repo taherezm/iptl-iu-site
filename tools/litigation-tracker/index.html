@@ -540,7 +540,6 @@
         <span><strong id="stat-active">&mdash;</strong> Open Cases</span>
         <span><strong id="stat-courts">&mdash;</strong> Courts</span>
         <span>Latest Activity <strong id="stat-updated">&mdash;</strong></span>
-        <span>Dockets Checked Through <strong id="stat-checked">&mdash;</strong></span>
         <span><strong id="stat-rulings">&mdash;</strong> Significant Rulings</span>
       </div>
       <div class="source-callout">
@@ -587,7 +586,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     active: document.getElementById('stat-active'),
     courts: document.getElementById('stat-courts'),
     updated: document.getElementById('stat-updated'),
-    checked: document.getElementById('stat-checked'),
     rulings: document.getElementById('stat-rulings'),
     caseList: document.getElementById('case-list'),
     search: document.getElementById('case-search')
@@ -621,7 +619,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     els.active.textContent = state.cases.filter(function (c) { return c.status !== 'resolved'; }).length;
     els.courts.textContent = new Set(state.cases.map(function (c) { return c.court; }).filter(Boolean)).size;
     els.updated.textContent = formatDate(latestActivityDate(state.cases)) || '\u2014';
-    els.checked.textContent = formatDate(docketCheckedThrough(state.cases)) || '\u2014';
     els.rulings.textContent = state.cases.reduce(function (sum, c) {
       return sum + ((c.key_rulings && c.key_rulings.length) || 0);
     }, 0);
@@ -839,18 +836,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       });
     });
     return mostRecentDate(dates);
-  }
-
-  function docketCheckedThrough(cases) {
-    var pollableCases = (cases || []).filter(function (item) {
-      return item.status !== 'resolved' && item.courtlistener_docket_id;
-    });
-    if (!pollableCases.length) return '';
-    var checkpoints = pollableCases.map(function (item) {
-      return String(item.docket_last_checked || '');
-    });
-    if (checkpoints.some(function (value) { return !/^\d{4}-\d{2}-\d{2}$/.test(value); })) return '';
-    return checkpoints.sort()[0] || '';
   }
 
   function formatDate(value) {
