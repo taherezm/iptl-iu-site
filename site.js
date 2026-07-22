@@ -20,3 +20,67 @@
     window.location.replace(cleanPath + window.location.search + window.location.hash);
   }
 })();
+
+(function () {
+  var emailLinks = document.querySelectorAll(".person .socials a[href^='mailto:']");
+
+  if (!emailLinks.length) {
+    return;
+  }
+
+  var toast = document.createElement("div");
+  var toastTimer;
+  toast.className = "email-toast";
+  toast.setAttribute("role", "status");
+  toast.setAttribute("aria-live", "polite");
+  document.body.appendChild(toast);
+
+  function showToast(message) {
+    window.clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    toastTimer = window.setTimeout(function () {
+      toast.classList.remove("is-visible");
+    }, 3000);
+  }
+
+  function fallbackCopy(address) {
+    var input = document.createElement("textarea");
+    input.value = address;
+    input.setAttribute("readonly", "");
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.appendChild(input);
+    input.select();
+
+    try {
+      if (!document.execCommand("copy")) {
+        throw new Error("Copy command was unavailable.");
+      }
+    } finally {
+      document.body.removeChild(input);
+    }
+  }
+
+  function copyEmail(address) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(address).catch(function () {
+        fallbackCopy(address);
+      });
+    }
+
+    fallbackCopy(address);
+    return Promise.resolve();
+  }
+
+  Array.prototype.forEach.call(emailLinks, function (link) {
+    link.addEventListener("click", function () {
+      var address = link.getAttribute("href").replace(/^mailto:/, "").split("?")[0];
+      copyEmail(address).then(function () {
+        showToast("Email copied: " + address);
+      }).catch(function () {
+        showToast("Email address: " + address);
+      });
+    });
+  });
+})();
