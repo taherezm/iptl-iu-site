@@ -28,22 +28,6 @@
     return;
   }
 
-  var toast = document.createElement("div");
-  var toastTimer;
-  toast.className = "email-toast";
-  toast.setAttribute("role", "status");
-  toast.setAttribute("aria-live", "polite");
-  document.body.appendChild(toast);
-
-  function showToast(message) {
-    window.clearTimeout(toastTimer);
-    toast.textContent = message;
-    toast.classList.add("is-visible");
-    toastTimer = window.setTimeout(function () {
-      toast.classList.remove("is-visible");
-    }, 3000);
-  }
-
   function fallbackCopy(address) {
     var input = document.createElement("textarea");
     input.value = address;
@@ -76,11 +60,7 @@
   Array.prototype.forEach.call(emailLinks, function (link) {
     link.addEventListener("click", function () {
       var address = link.getAttribute("href").replace(/^mailto:/, "").split("?")[0];
-      copyEmail(address).then(function () {
-        showToast("Email copied: " + address);
-      }).catch(function () {
-        showToast("Email address: " + address);
-      });
+      copyEmail(address).catch(function () {});
     });
   });
 })();
