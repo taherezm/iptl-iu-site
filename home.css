@@ -290,7 +290,9 @@
 .contact-grid .left .email {
   margin-top: 32px;
   font-family: var(--serif);
-  font-size: 26px;
+  font-size: clamp(18px, 6.25vw, 26px);
+  max-width: 100%;
+  overflow-wrap: anywhere;
   color: var(--ink);
   border-bottom: 1px solid var(--rule-strong);
   padding-bottom: 8px;
