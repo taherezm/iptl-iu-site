@@ -19,6 +19,11 @@
   max-width: 18ch;
 }
 .blog-hero .lead { margin-top: 28px; max-width: 60ch; }
+.research-index-hero .lead {
+  margin-top: 0;
+  font-size: 20px;
+  line-height: 1.6;
+}
 .blog-hero .meta-row {
   display: flex;
   gap: 24px;
